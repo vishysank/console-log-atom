@@ -20,4 +20,4 @@ module.exports =
         editor.insertText("console.log('"+ selectedText.toUpperCase() + "', " + selectedText + ")")
       else
         editor.insertText("console.log()")
-        editor.moveLeft(2)
+        editor.moveLeft(1)
