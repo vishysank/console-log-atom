@@ -21,4 +21,4 @@ can be used by using the hotkeys ```ctrl-l```
 If you see any bugs in this package or if you have any additional features that you would like, please add an issue to this repo and I will look to resolve it.
 
 ## Demo
-![console-log Demo](assets/console-log-demo.gif)
+![console-log Demo](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/console-log-demo.gif)
