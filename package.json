@@ -1,0 +1,21 @@
+{
+  "name": "console-log",
+  "main": "./lib/console-log",
+  "version": "0.0.0",
+  "description": "A console.log generator",
+  "author": "Vishwam Sankar",
+  "keywords": [
+    "console.log",
+    "console",
+    "console-log"
+  ],
+  "activationCommands": {
+    "atom-workspace": "console-log:add"
+  },
+  "repository": "https://github.com/atom/console-log",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {}
+}

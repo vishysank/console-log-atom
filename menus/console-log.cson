@@ -1,0 +1,22 @@
+# See https://atom.io/docs/latest/hacking-atom-package-word-count#menus for more details
+'context-menu':
+  'atom-text-editor': [
+    {
+      'label': 'Add console.log'
+      'command': 'console-log:add'
+    }
+  ]
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'console-log'
+      'submenu': [
+        {
+          'label': 'Add console.log'
+          'command': 'console-log:add'
+        }
+      ]
+    ]
+  }
+]
