@@ -4,7 +4,9 @@ console-log is a simple helper function that makes logging and debugging easy.
 
 ## How to use
 
-can be used by using the hotkeys ```ctrl-l```
+* can be used by using the hotkeys ```ctrl-l``` (OSX) **OR** (if ctrl-l is already mapped to ```editor:select-line``` since ```cmd``` is not used in windows)
+* can be used by using the hotkeys ```ctrl-alt-l``` (Linux/Windows)
+* can also be found in the command palette as ```Console Log:Add```
 
 ## Features
 
