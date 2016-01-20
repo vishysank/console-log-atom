@@ -5,8 +5,8 @@ module.exports =
 
   config:
     semiColons:
-      type: 'boolean',
       title: 'Include semi-colons at end of console.log function',
+      type: 'boolean',
       description: 'Depending on the linting standard you use, you can choose to include semicolons. Defaults to no semi-colons'
       default: false
 
