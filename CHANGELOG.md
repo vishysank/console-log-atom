@@ -11,5 +11,5 @@
 ## 0.3.1 - Added Keybinding for Linux/Windows computer
 * Linux/Windows users can use the hotkey ```ctrl-alt-l``` to use the package
 
-## 0.4.0 - Include semi-colons configuration Option
+## 0.6.2 - Include semi-colons configuration Option
 * Choose whether you want to include semi-colons at end of console.log function. Depending on the linting standard you use, you can choose to include semicolons. **Defaults to no semi-colons**
