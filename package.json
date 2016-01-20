@@ -11,9 +11,6 @@
     "debugging",
     "debug"
   ],
-  "activationCommands": {
-    "atom-workspace": "console-log:add"
-  },
   "repository": "https://github.com/vishysank/console-log-atom",
   "license": "MIT",
   "engines": {
