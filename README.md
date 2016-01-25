@@ -7,7 +7,7 @@ console-log is a simple helper function that makes logging and debugging easy.
 
 ## Installation
 You can install this package from the CLI or from the Editor.
-* CLI - ```apm install console.log```
+* CLI - ```apm install console-log```
 * Editor - ```Atom > Preferences > Install > Search for console-log in Packages```
 
 ## Features
