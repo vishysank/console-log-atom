@@ -5,6 +5,11 @@ console-log is a simple helper function that makes logging and debugging easy.
 ## Demo
 ![console-log Demo](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/console-log-demo.gif)
 
+## Installation
+You can install this package from the CLI or from the Editor.
+* CLI - ```apm install console.log```
+* Editor - ```Atom > Preferences > Install > Search for console-log in Packages```
+
 ## Features
 
 * **empty console.log function :** mimics ```log-tab``` functionality. When the hotkey ```ctrl-l``` is used anywhere in the editor without any selection it will add ```console.log()``` to the editor. (refer line 6 in gif)
@@ -14,6 +19,7 @@ console-log is a simple helper function that makes logging and debugging easy.
 ## Configurations
 
 * **Include semi-colons :** Choose whether you want to include semi-colons at end of console.log function. Depending on the linting standard you use, you can choose to include semicolons. **Defaults to no semi-colons**
+* **Define Identifier case :** Choose whether to retain case of selected text when creating identifier. **Defaults to creating an identifier in capital case of selected text**
 
 ## How to Use
 
@@ -26,7 +32,7 @@ console-log is a simple helper function that makes logging and debugging easy.
 
 ## Coming soon !
 * **Coffescript Support**
-* **Option to retain identifier Case :** Can configure whether to convert the identifier to all caps, or retain the case of the original selection.
+* **JSON.stringify support within console.log**
 * **Deconsole your file :** enable quick  cleaning of your file after you are done debugging.
 
 ## Help me help you !
