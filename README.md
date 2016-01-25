@@ -1,3 +1,4 @@
+[![apm install console-log](https://apm-badges.herokuapp.com/apm/console-log.svg?theme=solarized-dark)](https://atom.io/packages/console-log)
 # console-log package
 
 console-log is a simple helper function that makes logging and debugging easy.
