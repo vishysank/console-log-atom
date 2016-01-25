@@ -1,16 +1,16 @@
 {CompositeDisposable} = require 'atom'
 
 module.exports =
-  subscriptions: null
 
   config:
     semiColons:
-      title: 'Include semi-colons at end of console.log function',
       type: 'boolean',
+      title: 'Include semi-colons at end of console.log function',
       description: 'Depending on the linting standard you use, you can choose to include semicolons. Defaults to no semi-colons'
       default: false
 
-
+  subscriptions: null
+  
   activate: ->
     @subscriptions = new CompositeDisposable
     @subscriptions.add atom.commands.add 'atom-workspace',
