@@ -16,3 +16,6 @@
 
 ## 0.7.0 - Added identifier Case configuration Option.
 * Choose whether to retain case of selected text when creating identifier. **Defaults to creating an identifier in capital case of selected text**
+
+## 0.7.1 - Fixed up documentation for install
+* APM install incorrectly named package as ```console.log``` instead of ```console-log```
