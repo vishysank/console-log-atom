@@ -4,6 +4,10 @@
     {
       'label': 'Add console.log'
       'command': 'console-log:add'
+    },
+    {
+      'label': 'Add console.log with JSON.stringify'
+      'command': 'console-log:addWithJSONStringify'
     }
   ]
 'menu': [
@@ -15,6 +19,10 @@
         {
           'label': 'Add console.log'
           'command': 'console-log:add'
+        },
+        {
+          'label': 'Add console.log with JSON.stringify'
+          'command': 'console-log:addWithJSONStringify'
         }
       ]
     ]

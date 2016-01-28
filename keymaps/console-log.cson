@@ -10,3 +10,6 @@
 'atom-workspace':
   'ctrl-l': 'console-log:add'
   'ctrl-alt-l': 'console-log:add'
+
+  'ctrl-o': 'console-log:addWithJSONStringify'
+  'ctrl-alt-o': 'console-log:addWithJSONStringify'

@@ -9,7 +9,9 @@
     "console",
     "console-log",
     "debugging",
-    "debug"
+    "debug",
+    "JSON.Stringify",
+    "JSON Stringify"
   ],
   "repository": "https://github.com/vishysank/console-log-atom",
   "license": "MIT",

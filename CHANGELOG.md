@@ -19,3 +19,6 @@
 
 ## 0.7.1 - Fixed up documentation for install
 * APM install incorrectly named package as ```console.log``` instead of ```console-log```
+
+## 0.8.0 - Added console.log option with JSON.stringify
+* Can generate a console.log function with a JSON.stringify method using ```ctrl-o``` or ```ctrl-alt-o```

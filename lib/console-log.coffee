@@ -20,6 +20,8 @@ module.exports =
     @subscriptions = new CompositeDisposable
     @subscriptions.add atom.commands.add 'atom-workspace',
       'console-log:add': => @add()
+    @subscriptions.add atom.commands.add 'atom-workspace',
+      'console-log:addWithJSONStringify': => @addWithJSONStringify()
 
   deactivate: ->
     @subscriptions.dispose()
@@ -39,4 +41,21 @@ module.exports =
         editor.insertText("console.log('#{identifier}', #{selectedText})#{semiColonValue}")
       else
         editor.insertText("console.log()#{semiColonValue}")
+        editor.moveLeft(cursorOffset)
+
+  addWithJSONStringify: ->
+    if editor = atom.workspace.getActiveTextEditor()
+      selectedText = editor.getSelectedText()
+      semiColonConfig = atom.config.get('console-log.semiColons')
+      identifierCaseConfig = atom.config.get('console-log.identifierCase')
+      semiColonValue = if semiColonConfig then ';' else ''
+      cursorOffset = if semiColonConfig then 3 else 2
+      identifier = if identifierCaseConfig then selectedText else selectedText.toUpperCase()
+
+      if selectedText.length > 0
+        editor.moveToEndOfLine()
+        editor.insertNewline()
+        editor.insertText("console.log('#{identifier}', JSON.stringify(#{selectedText}))#{semiColonValue}")
+      else
+        editor.insertText("console.log(JSON.stringify())#{semiColonValue}")
         editor.moveLeft(cursorOffset)
