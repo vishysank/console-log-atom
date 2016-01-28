@@ -21,7 +21,7 @@ module.exports =
     @subscriptions.add atom.commands.add 'atom-workspace',
       'console-log:add': => @add()
     @subscriptions.add atom.commands.add 'atom-workspace',
-      'console-log:addWithJSONStringify': => @addWithJSONStringify()
+      'console-log:add-with-JSON-stringify': => @addWithJSONStringify()
 
   deactivate: ->
     @subscriptions.dispose()

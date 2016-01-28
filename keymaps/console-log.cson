@@ -11,5 +11,5 @@
   'ctrl-l': 'console-log:add'
   'ctrl-alt-l': 'console-log:add'
 
-  'ctrl-o': 'console-log:addWithJSONStringify'
-  'ctrl-alt-o': 'console-log:addWithJSONStringify'
+  'ctrl-o': 'console-log:add-with-JSON-stringify'
+  'ctrl-alt-o': 'console-log:add-with-JSON-stringify'

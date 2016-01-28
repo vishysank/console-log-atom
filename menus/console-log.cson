@@ -7,7 +7,7 @@
     },
     {
       'label': 'Add console.log with JSON.stringify'
-      'command': 'console-log:addWithJSONStringify'
+      'command': 'console-log:add-with-JSON-stringify'
     }
   ]
 'menu': [
@@ -22,7 +22,7 @@
         },
         {
           'label': 'Add console.log with JSON.stringify'
-          'command': 'console-log:addWithJSONStringify'
+          'command': 'console-log:add-with-JSON-stringify'
         }
       ]
     ]
