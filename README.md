@@ -3,7 +3,7 @@
 console-log is a simple helper function that makes logging and debugging easy.
 
 ## Demo
-![console-log Demo](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/console-log-demo.gif)
+![console-log Demo](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/console-log-demo-2.gif)
 
 ## Installation
 You can install this package from the CLI or from the Editor.
@@ -20,7 +20,7 @@ You can install this package from the CLI or from the Editor.
 * **filled in console.log function :**
   * select text and then ```ctrl-l``` -  A console.log function with an identifier of the selected value in caps and the value will be added to a new line (so as not to break existing code), and will be indented to the same number of spaces as the previous line. (refer line 8 in gif)
 
-  * select text and then ```ctrl-o``` - Same as the above, except the selected text will be couched in a ```JSON.stringify()``` function. 
+  * select text and then ```ctrl-o``` - Same as the above, except the selected text will be couched in a ```JSON.stringify()``` function.
 
 ## Configurations
 
