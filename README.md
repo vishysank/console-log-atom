@@ -1,6 +1,10 @@
 # console-log package
 
-console-log is a simple helper function that makes logging and debugging easy.
+console-log is a simple  and smart helper function that makes logging and debugging easy. Some basic features:
+* Generates a console.log with identifier if text/variable is selected, and empty console.log if no text text is selected
+* Generates a console.log with text/variable within a JSON.stringify method.
+* If selected text is the variable being defined to create an object, places console.log after object has been created to prevent any code breaks.
+* 
 
 ## Demo
 ![console-log Demo](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/console-log-demo-2.gif)
@@ -10,28 +14,22 @@ You can install this package from the CLI or from the Editor.
 * CLI - ```apm install console-log```
 * Editor - ```Atom > Preferences > Install > Search for console-log in Packages```
 
-## Features
+## How to use
 
 * **empty console.log function :**
-  * ```ctrl-l``` or ```ctrl-alt-l``` - mimics ```log-tab``` functionality. When the hotkey(s) is used anywhere in the editor without any selection it will add ```console.log()``` to the editor. (refer line 6 in gif)
+  * ```ctrl-l``` (OSX) or ```ctrl-alt-l``` (Linux/Windows) - mimics ```log-tab``` functionality. When the hotkey(s) is used anywhere in the editor without any selection it will add ```console.log()``` to the editor. Can also be found in the command palette as ```Console Log:Add```
 
-  * ```ctrl-o``` or ```ctrl-alt-l``` - When the hotkey ```ctrl-o``` is used anywhere in the editor without any selection it will add ```console.log(JSON.stringify())``` to the editor
+  * ```ctrl-o``` (OSX) or ```ctrl-alt-l``` (Linux/Windows) - When the hotkey ```ctrl-o``` is used anywhere in the editor without any selection it will add ```console.log(JSON.stringify())``` to the editor. Can also be found in the command palette as ```Console Log:Add with JSON.stringify```
 
 * **filled in console.log function :**
-  * select text and then ```ctrl-l``` -  A console.log function with an identifier of the selected value in caps and the value will be added to a new line (so as not to break existing code), and will be indented to the same number of spaces as the previous line. (refer line 8 in gif)
+  * select text and then ```ctrl-l``` (OSX) or ```ctrl-alt-l``` (Linux/Windows) -  A console.log function with an identifier of the selected value in caps and the value will be added to a new line (so as not to break existing code), and will be indented to the same number of spaces as the previous line. Can also be found in the command palette as ```Console Log:Add```
 
-  * select text and then ```ctrl-o``` - Same as the above, except the selected text will be couched in a ```JSON.stringify()``` function.
+  * select text and then ```ctrl-o``` (OSX) or ```ctrl-alt-l``` (Linux/Windows) - Same as the above, except the selected text will be couched in a ```JSON.stringify()``` function. Can also be found in the command palette as ```Console Log:Add with JSON.stringify```
 
 ## Configurations
 
 * **Include semi-colons :** Choose whether you want to include semi-colons at end of console.log function. Depending on the linting standard you use, you can choose to include semicolons. **Defaults to no semi-colons**
 * **Define Identifier case :** Choose whether to retain case of selected text when creating identifier. **Defaults to creating an identifier in capital case of selected text**
-
-## How to Use
-
-* can be used by using the hotkeys ```ctrl-l``` (OSX) **OR** (if ctrl-l is already mapped to ```editor:select-line``` since ```cmd``` is not used in windows)
-* can be used by using the hotkeys ```ctrl-alt-l``` (Linux/Windows)
-* can also be found in the command palette as ```Console Log:Add```
 
 ## Languages Supported
 * Javascript

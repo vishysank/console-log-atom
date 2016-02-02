@@ -22,3 +22,6 @@
 
 ## 0.8.0 - Added console.log option with JSON.stringify
 * Can generate a console.log function with a JSON.stringify method using ```ctrl-o``` or ```ctrl-alt-o```
+
+## 0.9.0 - Smart detection of objects
+* If selected text is the variable being defined to create an object, places console.log after object has been created to prevent any code breaks.
