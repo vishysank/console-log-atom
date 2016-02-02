@@ -4,10 +4,10 @@ console-log is a simple  and smart helper function that makes logging and debugg
 * Generates a console.log with identifier if text/variable is selected, and empty console.log if no text text is selected
 * Generates a console.log with text/variable within a JSON.stringify method.
 * If selected text is the variable being defined to create an object, places console.log after object has been created to prevent any code breaks.
-* 
+*
 
 ## Demo
-![console-log Demo](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/console-log-demo-2.gif)
+![console-log Demo](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/console-log-demo-3.gif)
 
 ## Installation
 You can install this package from the CLI or from the Editor.
