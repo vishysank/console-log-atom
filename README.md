@@ -1,10 +1,9 @@
 # console-log package
 
 console-log is a simple  and smart helper function that makes logging and debugging easy. Some basic features:
-* Generates a console.log with identifier if text/variable is selected, and empty console.log if no text text is selected
-* Generates a console.log with text/variable within a JSON.stringify method.
-* If selected text is the variable being defined to create an object, places console.log after object has been created to prevent any code breaks.
-*
+* Generates a console.log with identifier if text/variable is selected, and empty console.log if no text text is selected. (Look at demo for ```params``` and ```paramValue```)
+* Generates a console.log with text/variable within a JSON.stringify method. (Look at demo gif for ```paramObject```)
+* If selected text is the variable being defined to create an object, places console.log after object has been created to prevent any code breaks.(Look at demo gif for ```paramObject2```)
 
 ## Demo
 ![console-log Demo](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/console-log-demo-3.gif)
@@ -13,6 +12,11 @@ console-log is a simple  and smart helper function that makes logging and debugg
 You can install this package from the CLI or from the Editor.
 * CLI - ```apm install console-log```
 * Editor - ```Atom > Preferences > Install > Search for console-log in Packages```
+
+## Configurations
+
+* **Include semi-colons :** Choose whether you want to include semi-colons at end of console.log function. Depending on the linting standard you use, you can choose to include semicolons. **Defaults to no semi-colons**
+* **Define Identifier case :** Choose whether to retain case of selected text when creating identifier. **Defaults to creating an identifier in capital case of selected text**
 
 ## How to use
 
@@ -26,16 +30,10 @@ You can install this package from the CLI or from the Editor.
 
   * select text and then ```ctrl-o``` (OSX) or ```ctrl-alt-l``` (Linux/Windows) - Same as the above, except the selected text will be couched in a ```JSON.stringify()``` function. Can also be found in the command palette as ```Console Log:Add with JSON.stringify```
 
-## Configurations
-
-* **Include semi-colons :** Choose whether you want to include semi-colons at end of console.log function. Depending on the linting standard you use, you can choose to include semicolons. **Defaults to no semi-colons**
-* **Define Identifier case :** Choose whether to retain case of selected text when creating identifier. **Defaults to creating an identifier in capital case of selected text**
-
 ## Languages Supported
 * Javascript
 
 ## Coming soon !
-* **Coffescript Support**
 * **Deconsole your file :** enable quick  cleaning of your file after you are done debugging.
 * **Support for multiple selections**
 
