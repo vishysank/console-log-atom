@@ -1,7 +1,7 @@
 {CompositeDisposable} = require 'atom'
 
 module.exports =
-
+  # TODO: move this config data to a new file
   config:
     semiColons:
       type: 'boolean'
@@ -26,6 +26,7 @@ module.exports =
   deactivate: ->
     @subscriptions.dispose()
 
+  # TODO: move add to a new file
   add: ->
     if editor = atom.workspace.getActiveTextEditor()
       selectedText = editor.getSelectedText()
@@ -86,7 +87,7 @@ module.exports =
         editor.insertText("console.log()#{semiColonValue}")
         editor.moveLeft(cursorOffset)
 
-
+  # TODO: addWithJSONStringify should be moved to a new file
   addWithJSONStringify: ->
     if editor = atom.workspace.getActiveTextEditor()
       selectedText = editor.getSelectedText()
@@ -106,14 +107,14 @@ module.exports =
         editor.moveToBeginningOfLine()
         editor.selectToEndOfLine()
 
-        functionCheckSelection = editor.getSelectedText().split(" ")
+        functionCheckSelection = editor.getSelectedText()
         objectCheckSelection = editor.getSelectedText().split("")
         objectCheckValues = ['=>', "function", "if"]
         objectFlag = true
         objectCount = 0
 
-        functionCheckSelection.forEach (e) ->
-          if objectCheckValues.indexOf(e) > -1
+        objectCheckValues.forEach (e) ->
+          if functionCheckSelection.indexOf(e) > -1
             objectFlag = false
 
         if objectFlag == true
