@@ -46,14 +46,14 @@ module.exports =
         editor.moveToBeginningOfLine()
         editor.selectToEndOfLine()
 
-        functionCheckSelection = editor.getSelectedText().split(" ")
+        functionCheckSelection = editor.getSelectedText()
         objectCheckSelection = editor.getSelectedText().split("")
         objectCheckValues = ['=>', "function", "if"]
         objectFlag = true
         objectCount = 0
 
-        functionCheckSelection.forEach (e) ->
-          if objectCheckValues.indexOf(e) > -1
+        objectCheckValues.forEach (e) ->
+          if functionCheckSelection.indexOf(e) > -1
             objectFlag = false
 
         if objectFlag == true
