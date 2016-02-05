@@ -33,7 +33,7 @@ module.exports =
       semiColonConfig = atom.config.get('console-log.semiColons')
       identifierCaseConfig = atom.config.get('console-log.identifierCase')
       semiColonValue = if semiColonConfig then ';' else ''
-      cursorOffset = if semiColonConfig then 3 else 2
+      cursorOffset = if semiColonConfig then 2 else 1
 
       if selectedText.length > 0
         identifier =
