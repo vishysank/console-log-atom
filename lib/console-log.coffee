@@ -48,7 +48,7 @@ module.exports =
 
         functionCheckSelection = editor.getSelectedText()
         objectCheckSelection = editor.getSelectedText().split("")
-        objectCheckValues = ['=>', "function", "if"]
+        objectCheckValues = ['=>', "function", "if", "){", ") {"]
         objectFlag = true
         objectCount = 0
 
@@ -109,7 +109,7 @@ module.exports =
 
         functionCheckSelection = editor.getSelectedText()
         objectCheckSelection = editor.getSelectedText().split("")
-        objectCheckValues = ['=>', "function", "if"]
+        objectCheckValues = ['=>', "function", "if", "){", ") {"]
         objectFlag = true
         objectCount = 0
 
