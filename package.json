@@ -2,7 +2,7 @@
   "name": "console-log",
   "main": "./lib/console-log",
   "version": "0.10.4",
-  "description": "A console.log generator",
+  "description": "A console.log generator / console.log cleaner (deconsoler)",
   "author": "Vishwam Sankar",
   "keywords": [
     "console.log",
@@ -12,6 +12,11 @@
     "debug",
     "JSON.Stringify",
     "JSON Stringify"
+    "deconsoler"
+    "clean console.log"
+    "clean logging"
+    "remove logging"
+    "remove console.log"
   ],
   "repository": "https://github.com/vishysank/console-log-atom",
   "license": "MIT",
