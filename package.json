@@ -11,12 +11,12 @@
     "debugging",
     "debug",
     "JSON.Stringify",
-    "JSON Stringify"
-    "deconsoler"
-    "clean console.log"
-    "clean logging"
-    "remove logging"
-    "remove console.log"
+    "JSON Stringify",
+    "deconsoler",
+    "clean console.log",
+    "clean logging",
+    "remove logging",
+    "remove console.log",
   ],
   "repository": "https://github.com/vishysank/console-log-atom",
   "license": "MIT",
