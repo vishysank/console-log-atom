@@ -13,3 +13,5 @@
 
   'ctrl-o': 'console-log:add-with-JSON-stringify'
   'ctrl-alt-o': 'console-log:add-with-JSON-stringify'
+
+  'ctrl-shift-D': 'console-log:deconsoler'

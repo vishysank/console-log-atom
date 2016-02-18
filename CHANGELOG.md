@@ -19,3 +19,6 @@
 
 ## 0.9.1 - Smart detection of objects
 * If selected text is the variable being defined to create an object, places console.log after object has been created to prevent any code breaks.
+
+## 0.10.0 - Added Deconsoler
+* ```ctrl-shift-D``` will clean out all the lines that contain console.log statements in the file.

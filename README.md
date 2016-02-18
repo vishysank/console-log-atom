@@ -4,9 +4,13 @@ console-log is a simple  and smart helper function that makes logging and debugg
 * Generates a console.log with identifier if text/variable is selected, and empty console.log if no text text is selected. (Look at demo for ```params``` and ```paramValue```)
 * Generates a console.log with text/variable within a JSON.stringify method. (Look at demo gif for ```paramObject```)
 * If selected text is the variable being defined to create an object, places console.log after object has been created to prevent any code breaks.(Look at demo gif for ```paramObject2```)
+* clean out all the lines that contain console.log statements in the file.
 
-## Demo
-![console-log Demo](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/console-log-demo-3.gif)
+## Demo of Adding console.log Statements
+![console-log Demo](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/console-log-demo.gif)
+
+## Demo of removing console.log Statements
+![Remove console-log Demo](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/deconsoler-demo.gif)
 
 ## Installation
 You can install this package from the CLI or from the Editor.
@@ -30,11 +34,13 @@ You can install this package from the CLI or from the Editor.
 
   * select text and then ```ctrl-o``` (OSX) or ```ctrl-alt-l``` (Linux/Windows) - Same as the above, except the selected text will be couched in a ```JSON.stringify()``` function. Can also be found in the command palette as ```Console Log:Add with JSON.stringify```
 
+* **Remove console.log statements :**
+  * ```ctrl-shift-D``` will clean out all the lines that contain console.log statements in the file.
+
 ## Languages Supported
 * Javascript
 
 ## Coming soon !
-* **Deconsole your file :** enable quick  cleaning of your file after you are done debugging.
 * **Support for multiple selections**
 
 ## Help me help you !

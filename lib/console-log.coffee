@@ -6,12 +6,16 @@ module.exports =
     semiColons:
       type: 'boolean'
       title: 'Include semi-colons at end of console.log function'
-      description: 'Depending on the linting standard you use, you can choose to include semicolons. Defaults to no semi-colons'
+      description: """
+      Depending on the linting standard you use, you can choose to include semicolons. Defaults to no semi-colons
+      """
       default: false
     identifierCase:
       type: 'boolean'
       title: 'Retain case of selected text when creating identifier'
-      description: 'Default behaviour creates an identifier in capital case of selected text'
+      description: """
+        Default behaviour creates an identifier in capital case of selected text
+        """
       default: false
 
   subscriptions: null
@@ -22,6 +26,8 @@ module.exports =
       'console-log:add': => @add()
     @subscriptions.add atom.commands.add 'atom-workspace',
       'console-log:add-with-JSON-stringify': => @addWithJSONStringify()
+    @subscriptions.add atom.commands.add 'atom-workspace',
+      'console-log:deconsoler': => @deconsole()
 
   deactivate: ->
     @subscriptions.dispose()
@@ -147,3 +153,42 @@ module.exports =
       else
         editor.insertText("console.log(JSON.stringify())#{semiColonValue}")
         editor.moveLeft(cursorOffset)
+
+  deconsole: ->
+    if editor = atom.workspace.getActiveTextEditor()
+      editor.setCursorScreenPosition([0,0])
+      editorLineCount = editor.getLastScreenRow()
+      checkedRow = 0
+      rowsToBeDeconsoled = []
+      messageRowSet = []
+      filePath = editor.getPath()
+
+      while checkedRow <= editorLineCount
+        editor.selectToEndOfLine()
+        functionCheckSelection = editor.getSelectedText()
+
+        if functionCheckSelection.indexOf('console.log') > -1
+          selectedTextScreenRow = editor.getSelectedScreenRange().getRows()
+          rowsToBeDeconsoled.push selectedTextScreenRow
+
+        checkedRow++
+        editor.moveToBeginningOfLine()
+        editor.moveDown(1)
+
+      editor.setCursorScreenPosition([(editorLineCount+1), 0])
+
+      rowsToBeDeconsoled.forEach (row) ->
+        editor.addCursorAtScreenPosition([row,0])
+        editor.selectToEndOfLine()
+        messageRowSet.push (row * 1) + 1
+
+      editor.deleteLine()
+      editor.setCursorScreenPosition([0,0])
+
+      atom.notifications.addSuccess "#{filePath} has been deconsoled",
+        detail: """
+        #{rowsToBeDeconsoled.length} rows with console.log have been removed
+        Line locations: #{messageRowSet}
+        If you want to revert, hit "undo" twice
+        """,
+        dismissable: true

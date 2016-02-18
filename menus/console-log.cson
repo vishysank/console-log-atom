@@ -8,6 +8,10 @@
     {
       'label': 'Add console.log with JSON.stringify'
       'command': 'console-log:add-with-JSON-stringify'
+    },
+    {
+      'label': 'Deconsoler - remove console.log lines from file'
+      'command': 'console-log:deconsoler'
     }
   ]
 'menu': [
@@ -23,6 +27,9 @@
         {
           'label': 'Add console.log with JSON.stringify'
           'command': 'console-log:add-with-JSON-stringify'
+        },{
+          'label': 'remove console.log lines from file'
+          'command': 'console-log:deconsoler'
         }
       ]
     ]
