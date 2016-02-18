@@ -190,6 +190,6 @@ module.exports =
         detail: """
         #{rowsToBeDeconsoled.length} rows with console.log have been removed
         Line locations: #{messageRowSet}
-        If you want to revert, hit "undo" twice
+        If you want to revert after closing this message, hit "undo" twice
         """,
         dismissable: true
