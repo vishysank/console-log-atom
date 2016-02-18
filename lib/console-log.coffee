@@ -182,8 +182,9 @@ module.exports =
         editor.selectToEndOfLine()
         messageRowSet.push (row * 1) + 1
 
-      editor.deleteLine()
-      editor.setCursorScreenPosition([0,0])
+      if rowsToBeDeconsoled.length > 0
+        editor.deleteLine()
+        editor.setCursorScreenPosition([0,0])
 
       atom.notifications.addSuccess "#{filePath} has been deconsoled",
         detail: """
