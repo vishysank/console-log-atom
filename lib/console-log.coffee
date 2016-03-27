@@ -76,7 +76,7 @@ module.exports =
           then '' else "background:#{backgroundStylingConfig}; "
         textStyle =
           if textStylingConfig == 'none'
-          then '' else "color:#{textStyle};"
+          then '' else "color:#{textStylingConfig};"
         styles = "#{backgroundStyle}#{textStyle}"
         identifierCaseConfig = atom.config.get('console-log.identifierCase')
         identifier =
@@ -126,7 +126,7 @@ module.exports =
         editor.moveToEndOfLine()
         editor.insertNewline()
         if styles.length > 0
-          editor.insertText("console.log('%c#{identifier}', #{styles}, #{selectedText})#{semiColonValue}")
+          editor.insertText("console.log('%c#{identifier}', '#{styles}', #{selectedText})#{semiColonValue}")
         else
           editor.insertText("console.log('#{identifier}', #{selectedText})#{semiColonValue}")
       else
@@ -199,7 +199,7 @@ module.exports =
         editor.moveToEndOfLine()
         editor.insertNewline()
         if styles.length > 0
-          editor.insertText("console.log('%c#{identifier}', #{styles}, JSON.stringify(#{selectedText}))#{semiColonValue}")
+          editor.insertText("console.log('%c#{identifier}', '#{styles}', JSON.stringify(#{selectedText}))#{semiColonValue}")
         else
           editor.insertText("console.log('#{identifier}', JSON.stringify(#{selectedText}))#{semiColonValue}")
       else
