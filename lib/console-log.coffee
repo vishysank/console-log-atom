@@ -7,8 +7,8 @@ module.exports =
       type: 'boolean'
       title: 'Include semi-colons at end of console.log function'
       description: """
-      Depending on the linting standard you use, you can choose to include semicolons. Defaults to no semi-colons
-      """
+        Depending on the linting standard you use, you can choose to include semicolons. Defaults to no semi-colons
+        """
       default: false
     identifierCase:
       type: 'boolean'
@@ -17,7 +17,35 @@ module.exports =
         Default behaviour creates an identifier in capital case of selected text
         """
       default: false
-
+    backgroundStyling:
+      type: 'string'
+      title: 'Include background styling for console identifier'
+      description: """
+        Currently only supported for logging displayed in chrome browser console
+        """
+      default: 'none'
+      enum: [
+        'none',
+        'red',
+        'blue',
+        'green',
+        'purple',
+        'black'
+      ]
+    textStyling:
+      type: 'string'
+      title: 'Include text styling for console identifier'
+      description: """
+        Currently only supported for logging displayed in chrome browser console
+        """
+      default: 'none'
+      enum: [
+        'none',
+        'red',
+        'blue',
+        'green',
+        'purple'
+      ]
   subscriptions: null
 
   activate: ->
@@ -37,11 +65,20 @@ module.exports =
     if editor = atom.workspace.getActiveTextEditor()
       selectedText = editor.getSelectedText()
       semiColonConfig = atom.config.get('console-log.semiColons')
-      identifierCaseConfig = atom.config.get('console-log.identifierCase')
       semiColonValue = if semiColonConfig then ';' else ''
       cursorOffset = if semiColonConfig then 2 else 1
 
       if selectedText.length > 0
+        backgroundStylingConfig = atom.config.get('console-log.backgroundStyling')
+        textStylingConfig = atom.config.get('console-log.textStyling')
+        backgroundStyle =
+          if backgroundStylingConfig == 'none'
+          then '' else "background:#{backgroundStylingConfig}; "
+        textStyle =
+          if textStylingConfig == 'none'
+          then '' else "color:#{textStyle};"
+        styles = "#{backgroundStyle}#{textStyle}"
+        identifierCaseConfig = atom.config.get('console-log.identifierCase')
         identifier =
           if identifierCaseConfig
           then selectedText else selectedText.toUpperCase()
@@ -88,7 +125,10 @@ module.exports =
 
         editor.moveToEndOfLine()
         editor.insertNewline()
-        editor.insertText("console.log('#{identifier}', #{selectedText})#{semiColonValue}")
+        if styles.length > 0
+          editor.insertText("console.log('%c#{identifier}', #{styles}, #{selectedText})#{semiColonValue}")
+        else
+          editor.insertText("console.log('#{identifier}', #{selectedText})#{semiColonValue}")
       else
         editor.insertText("console.log()#{semiColonValue}")
         editor.moveLeft(cursorOffset)
@@ -98,11 +138,20 @@ module.exports =
     if editor = atom.workspace.getActiveTextEditor()
       selectedText = editor.getSelectedText()
       semiColonConfig = atom.config.get('console-log.semiColons')
-      identifierCaseConfig = atom.config.get('console-log.identifierCase')
       semiColonValue = if semiColonConfig then ';' else ''
       cursorOffset = if semiColonConfig then 3 else 2
 
       if selectedText.length > 0
+        backgroundStylingConfig = atom.config.get('console-log.backgroundStyling')
+        textStylingConfig = atom.config.get('console-log.textStyling')
+        backgroundStyle =
+          if backgroundStylingConfig == 'none'
+          then '' else "background:#{backgroundStylingConfig}; "
+        textStyle =
+          if textStylingConfig == 'none'
+          then '' else "color:#{textStyle};"
+        styles = "#{backgroundStyle}#{textStyle}"
+        identifierCaseConfig = atom.config.get('console-log.identifierCase')
         identifier =
           if identifierCaseConfig
           then selectedText else selectedText.toUpperCase()
@@ -149,7 +198,10 @@ module.exports =
 
         editor.moveToEndOfLine()
         editor.insertNewline()
-        editor.insertText("console.log('#{identifier}', JSON.stringify(#{selectedText}))#{semiColonValue}")
+        if styles.length > 0
+          editor.insertText("console.log('%c#{identifier}', #{styles}, JSON.stringify(#{selectedText}))#{semiColonValue}")
+        else
+          editor.insertText("console.log('#{identifier}', JSON.stringify(#{selectedText}))#{semiColonValue}")
       else
         editor.insertText("console.log(JSON.stringify())#{semiColonValue}")
         editor.moveLeft(cursorOffset)
