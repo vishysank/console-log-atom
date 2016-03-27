@@ -44,7 +44,8 @@ module.exports =
         'red',
         'blue',
         'green',
-        'purple'
+        'purple',
+        'white'
       ]
   subscriptions: null
 
