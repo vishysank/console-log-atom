@@ -22,3 +22,6 @@
 
 ## 0.10.0 - Added Deconsoler
 * ```ctrl-shift-D``` will clean out all the lines that contain console.log statements in the file.
+
+## 0.11.0 - Added background and text styling
+* Background and text styling of console.log identifier now available. will only work for logging in chrome dev tools console.
