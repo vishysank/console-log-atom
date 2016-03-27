@@ -12,6 +12,9 @@ console-log is a simple  and smart helper function that makes logging and debugg
 ## Demo of removing console.log Statements
 ![Remove console-log Demo](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/deconsoler-demo.gif)
 
+## Demo of identifier styling (Chrome Dev Tools only)
+![Styling Demo](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/styling-demo.png)
+
 ## Installation
 You can install this package from the CLI or from the Editor.
 * CLI - ```apm install console-log```
