@@ -25,3 +25,7 @@
 
 ## 0.11.0 - Added background and text styling
 * Background and text styling of console.log identifier now available. will only work for logging in chrome dev tools console.
+
+## 0.12.0 - Moved console.log with background and text styling to separate keymaps
+* ```ctrl-alt-c``` - Will mimic the functionality of ```ctrl-alt-l``` but will include background and text styling if applicable.
+* ```ctrl-alt-s``` - Will mimic the functionality of ```ctrl-alt-o``` but will include background and text styling if applicable.
