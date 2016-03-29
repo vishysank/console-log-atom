@@ -156,7 +156,7 @@ module.exports =
           then '' else "background:#{backgroundStylingConfig}; "
         textStyle =
           if textStylingConfig == 'none'
-          then '' else "color:#{textStyle};"
+          then '' else "color:#{textStylingConfig};"
         styles =
           if devLayer == 'frontEnd'
           then "#{backgroundStyle}#{textStyle}" else ''
