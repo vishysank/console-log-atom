@@ -12,6 +12,14 @@
     {
       'label': 'Deconsoler - remove console.log lines from file'
       'command': 'console-log:deconsoler'
+    },
+    {
+      'label': 'Add console.log with styling (front-end only)'
+      'command': 'console-log:add-with-JSON-stringify'
+    },
+    {
+      'label': 'Add console.log with JSON.stringify and styling (front-end only)'
+      'command': 'console-log:add-with-JSON-stringify-and-styling'
     }
   ]
 'menu': [
@@ -27,9 +35,18 @@
         {
           'label': 'Add console.log with JSON.stringify'
           'command': 'console-log:add-with-JSON-stringify'
-        },{
-          'label': 'remove console.log lines from file'
+        },
+        {
+          'label': 'Deconsoler - remove console.log lines from file'
           'command': 'console-log:deconsoler'
+        },
+        {
+          'label': 'Add console.log with styling (front-end only)'
+          'command': 'console-log:add-with-JSON-stringify'
+        },
+        {
+          'label': 'Add console.log with JSON.stringify and styling (front-end only)'
+          'command': 'console-log:add-with-JSON-stringify-and-styling'
         }
       ]
     ]

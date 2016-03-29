@@ -10,8 +10,10 @@
 'atom-workspace':
   'ctrl-l': 'console-log:add'
   'ctrl-alt-l': 'console-log:add'
+  'ctrl-alt-c': 'console-log:add-with-styling'
 
   'ctrl-o': 'console-log:add-with-JSON-stringify'
   'ctrl-alt-o': 'console-log:add-with-JSON-stringify'
+  'ctrl-alt-s': 'console-log:add-with-JSON-stringify-and-styling'
 
   'ctrl-shift-D': 'console-log:deconsoler'

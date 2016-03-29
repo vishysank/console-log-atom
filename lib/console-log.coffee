@@ -52,9 +52,13 @@ module.exports =
   activate: ->
     @subscriptions = new CompositeDisposable
     @subscriptions.add atom.commands.add 'atom-workspace',
-      'console-log:add': => @add()
+      'console-log:add': => @add('backEnd')
     @subscriptions.add atom.commands.add 'atom-workspace',
-      'console-log:add-with-JSON-stringify': => @addWithJSONStringify()
+      'console-log:add-with-styling': => @add('frontEnd')
+    @subscriptions.add atom.commands.add 'atom-workspace',
+      'console-log:add-with-JSON-stringify': => @addWithJSONStringify('backEnd')
+    @subscriptions.add atom.commands.add 'atom-workspace',
+      'console-log:add-with-JSON-stringify-and-styling': => @addWithJSONStringify('frontEnd')
     @subscriptions.add atom.commands.add 'atom-workspace',
       'console-log:deconsoler': => @deconsole()
 
@@ -62,7 +66,7 @@ module.exports =
     @subscriptions.dispose()
 
   # TODO: move add to a new file
-  add: ->
+  add: (devLayer) ->
     if editor = atom.workspace.getActiveTextEditor()
       selectedText = editor.getSelectedText()
       semiColonConfig = atom.config.get('console-log.semiColons')
@@ -78,7 +82,9 @@ module.exports =
         textStyle =
           if textStylingConfig == 'none'
           then '' else "color:#{textStylingConfig};"
-        styles = "#{backgroundStyle}#{textStyle}"
+        styles =
+          if devLayer == 'frontEnd'
+          then "#{backgroundStyle}#{textStyle}" else ''
         identifierCaseConfig = atom.config.get('console-log.identifierCase')
         identifier =
           if identifierCaseConfig
@@ -135,7 +141,7 @@ module.exports =
         editor.moveLeft(cursorOffset)
 
   # TODO: addWithJSONStringify should be moved to a new file
-  addWithJSONStringify: ->
+  addWithJSONStringify: (devLayer) ->
     if editor = atom.workspace.getActiveTextEditor()
       selectedText = editor.getSelectedText()
       semiColonConfig = atom.config.get('console-log.semiColons')
@@ -151,7 +157,9 @@ module.exports =
         textStyle =
           if textStylingConfig == 'none'
           then '' else "color:#{textStyle};"
-        styles = "#{backgroundStyle}#{textStyle}"
+        styles =
+          if devLayer == 'frontEnd'
+          then "#{backgroundStyle}#{textStyle}" else ''
         identifierCaseConfig = atom.config.get('console-log.identifierCase')
         identifier =
           if identifierCaseConfig
