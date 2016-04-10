@@ -1,19 +1,18 @@
 # console-log package
 
-console-log is a simple  and smart helper function that makes logging and debugging easy. Some basic features:
-* Generates a console.log with identifier if text/variable is selected, and empty console.log if no text text is selected. (Look at demo for ```params``` and ```paramValue```)
-* Generates a console.log with text/variable within a JSON.stringify method. (Look at demo gif for ```paramObject```)
-* If selected text is the variable being defined to create an object, places console.log after object has been created to prevent any code breaks.(Look at demo gif for ```paramObject2```)
-* clean out all the lines that contain console.log statements in the file.
+console-log is a simple  and smart helper function that makes logging and debugging easy.
 
-## Demo of Adding console.log Statements
-![console-log Demo](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/console-log-demo.gif)
+## Features and demo's
+### Basic Logging
+* [Generates a console.log with identifier if text/variable is selected, and empty console.log if no text text is selected.](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/console-log-demo.gif)
+* [Generates a console.log with text/variable within a JSON.stringify method.](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/console-log-demo.gif)
+* [If selected text is the variable being defined to create an object, places console.log after object has been created to prevent any code breaks.](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/console-log-demo.gif)
 
-## Demo of removing console.log Statements
-![Remove console-log Demo](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/deconsoler-demo.gif)
+### Logging Cleanup
+* [clean out all the lines that contain console.log statements in the file.](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/deconsoler-demo.gif)
 
-## Demo of identifier styling (Chrome Dev Tools only)
-![Styling Demo](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/styling-demo.png)
+### Identifier Styling (Chrome Dev Tools only)
+* [For logging in the chrome dev tools console, you can choose to enable text styling for the identifier](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/styling-demo.png)
 
 ## Installation
 You can install this package from the CLI or from the Editor.
@@ -51,6 +50,7 @@ You can install this package from the CLI or from the Editor.
 
 ## Coming soon !
 * **Support for multiple selections**
+* code contributions are welcome.
 
 ## Help me help you !
 
