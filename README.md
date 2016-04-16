@@ -27,21 +27,20 @@ You can install this package from the CLI or from the Editor.
 * **Include text style for identifier:** For logging in the chrome dev tools console, you can choose to enable text styling for the identifier **defaults to none**
 
 ## How to use
+### console.log function
+  * ```ctrl-l``` (OSX) or ```ctrl-alt-l``` (Linux/Windows) - When used anywhere in the editor without any selection it will add ```console.log()``` to the editor. Can also be found in the command palette as ```Console Log:Add```
 
-* **empty console.log function :**
-  * ```ctrl-l``` (OSX) or ```ctrl-alt-l``` (Linux/Windows) - mimics ```log-tab``` functionality. When the hotkey(s) is used anywhere in the editor without any selection it will add ```console.log()``` to the editor. Can also be found in the command palette as ```Console Log:Add```
-
-  * ```ctrl-o``` (OSX) or ```ctrl-alt-o``` (Linux/Windows) - When the hotkey ```ctrl-o``` is used anywhere in the editor without any selection it will add ```console.log(JSON.stringify())``` to the editor. Can also be found in the command palette as ```Console Log:Add with JSON.stringify```
-
-* **filled in console.log function :**
   * select text and then ```ctrl-l``` (OSX) or ```ctrl-alt-l``` (Linux/Windows) -  A console.log function with an identifier of the selected value in caps and the value will be added to a new line (so as not to break existing code), and will be indented to the same number of spaces as the previous line. Can also be found in the command palette as ```Console Log:Add```
+
+### console.log function with JSON.stringify
+  * ```ctrl-o``` (OSX) or ```ctrl-alt-o``` (Linux/Windows) - When used anywhere in the editor without any selection it will add ```console.log(JSON.stringify())``` to the editor. Can also be found in the command palette as ```Console Log:Add with JSON.stringify```
 
   * select text and then ```ctrl-o``` (OSX) or ```ctrl-alt-o``` (Linux/Windows) - Same as the above, except the selected text will be couched in a ```JSON.stringify()``` function. Can also be found in the command palette as ```Console Log:Add with JSON.stringify```
 
-* **Remove console.log statements :**
+### Remove console.log statements
   * ```ctrl-shift-D``` will clean out all the lines that contain console.log statements in the file.
 
-* **Console.log function with styling (For use in front-end logging in chrome dev tools)**
+### Console.log function with styling (For use in front-end logging in chrome dev tools)
   * ```ctrl-alt-c``` - Will mimic the functionality of ```ctrl-alt-l``` but will include background and text styling if applicable.
   * ```ctrl-alt-s``` - Will mimic the functionality of ```ctrl-alt-o``` but will include background and text styling if applicable.
 
@@ -49,8 +48,8 @@ You can install this package from the CLI or from the Editor.
 * Javascript
 
 ## Coming soon !
-* **Support for multiple selections**
-* code contributions are welcome.
+* Support for multiple selections
+* **code contributions are welcome.**
 
 ## Help me help you !
 
