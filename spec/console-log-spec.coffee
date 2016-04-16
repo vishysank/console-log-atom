@@ -5,10 +5,11 @@ describe "console.log inserts", ->
     waitsForPromise ->
       atom.workspace.open("test.js")
 
+  testString = "test"
+  insert = "console.log()"
+
   describe "back end inserts", ->
     devLayer = "backEnd"
-    testString = "test"
-    insert = "console.log()"
 
     it "should add insert at cursor position", ->
       editor = atom.workspace.getActiveTextEditor()
@@ -21,9 +22,7 @@ describe "console.log inserts", ->
 
     it "should add cursor between parenthesis of insert", ->
       editor = atom.workspace.getActiveTextEditor()
-      editor.insertText(testString)
       consoleLog.add(devLayer)
-      expect(editor.getText()).toEqual "#{testString}#{insert}"
       editor.selectToEndOfLine()
       expect(editor.getSelectedText()).toEqual ")"
 
@@ -33,6 +32,32 @@ describe "console.log inserts", ->
     """, ->
       editor = atom.workspace.getActiveTextEditor()
       atom.config.set('console-log.semiColons', true)
-      editor.insertText(testString)
       consoleLog.add(devLayer)
-      expect(editor.getText()).toEqual "#{testString}#{insert};"
+      expect(editor.getText()).toEqual "#{insert};"
+
+  describe "front end inserts", ->
+    devLayer = "frontEnd"
+    styleColor = "red"
+
+    it "should have no styling if configs are set to none", ->
+      editor = atom.workspace.getActiveTextEditor()
+      consoleLog.add(devLayer)
+      expect(editor.getText()).toEqual insert
+
+    it """
+      if no text is selected,
+      should have no background styling even if config is set
+    """, ->
+      editor = atom.workspace.getActiveTextEditor()
+      atom.config.set('console-log.backgroundStyling', styleColor)
+      consoleLog.add(devLayer)
+      expect(editor.getText()).toEqual insert
+
+    it """
+      if no text is selected,
+      should have no text styling even if config is set
+    """, ->
+      editor = atom.workspace.getActiveTextEditor()
+      atom.config.set('console-log.textStyling', styleColor)
+      consoleLog.add(devLayer)
+      expect(editor.getText()).toEqual insert
