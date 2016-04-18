@@ -10,7 +10,12 @@ console-log is a simple  and smart helper function that makes logging and debugg
 ### Basic Logging
 * ```ctrl-l``` (OSX) or ```ctrl-alt-l``` (Linux/Windows) - [Generates a console.log with identifier if text/variable is selected, and empty console.log if no text is selected.](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/console-log-demo.gif)
 * ```ctrl-o``` (OSX) or ```ctrl-alt-o``` (Linux/Windows) - [Generates a console.log with text/variable within a JSON.stringify method.](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/console-log-stringify-demo.gif)
+
+### Smart Object Logging (Incremental improvements in works)
 * [If selected text is the variable being defined to create an object, places console.log after object has been created to prevent any code breaks.](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/console-log-object-demo.gif)
+
+### Smart Function Logging (Early release still in works)
+* [If function name is selected, places console.log after function has been created. If param is selected, places the console.log statement within the param](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/console-log-function-demo.gif)
 
 ### Logging Cleanup
 * ```ctrl-shift-D``` - [clean out all the lines that contain console.log statements in the file.](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/deconsoler-demo.gif)

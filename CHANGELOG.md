@@ -31,3 +31,7 @@
 * ```ctrl-alt-s``` - Will mimic the functionality of ```ctrl-alt-o``` but will include background and text styling if applicable.
 
 ## 1.0.0 - First Stable Version !
+
+## 1.1.0 - First incomplete build of smart function console.logging
+* Console log statement is placed inside the function if param is chosen
+* console log statement is placed outside the function if function name is chosen
