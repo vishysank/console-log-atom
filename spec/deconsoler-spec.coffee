@@ -42,7 +42,7 @@ describe "Deconsoler", ->
     expect(notificationArray[0].type).toEqual "success"
     expect(notificationArray[0].message).toContain "test.js has been deconsoled"
     expect(notificationArray[0].options.detail).toContain """
-    #{consoleInsertLineNumbers.length} rows with console.log have been removed
+      #{consoleInsertLineNumbers.length} rows with console.log have been removed
     """
     expect(notificationArray[0].options.detail).toContain """
       Line locations: #{consoleInsertLineNumbers.join()}

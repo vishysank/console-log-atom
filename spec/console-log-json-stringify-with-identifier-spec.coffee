@@ -38,7 +38,9 @@ describe "console.log JSON.stringify inserts with identifier", ->
         editor.moveToBeginningOfLine()
         editor.selectToEndOfWord()
         selection = editor.getSelectedText()
+        # coffeelint: disable=max_line_length
         insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
+        # coffeelint: enable=max_line_length
         consoleLog.addWithJSONStringify(devLayer)
         expect(editor.getText()).toContain "#{insert}"
 
@@ -51,7 +53,9 @@ describe "console.log JSON.stringify inserts with identifier", ->
         editor.moveToBeginningOfLine()
         editor.selectToEndOfWord()
         selection = editor.getSelectedText()
+        # coffeelint: disable=max_line_length
         insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
+        # coffeelint: enable=max_line_length
         consoleLog.addWithJSONStringify(devLayer)
         expect(editor.getText()).toEqual """
         #{testString}
@@ -64,7 +68,9 @@ describe "console.log JSON.stringify inserts with identifier", ->
         editor.setCursorScreenPosition([0,0])
         editor.selectToEndOfWord()
         selection = editor.getSelectedText()
+        # coffeelint: disable=max_line_length
         insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
+        # coffeelint: enable=max_line_length
         consoleLog.addWithJSONStringify(devLayer)
         expect(editor.getText()).toEqual """
           #{testObject}
@@ -82,7 +88,9 @@ describe "console.log JSON.stringify inserts with identifier", ->
         editor.moveToEndOfWord()
         editor.selectToEndOfWord()
         selection = editor.getSelectedText()
+        # coffeelint: disable=max_line_length
         insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
+        # coffeelint: enable=max_line_length
         consoleLog.addWithJSONStringify(devLayer)
         expect(editor.lineTextForScreenRow(1)).toEqual "#{insert}"
 
@@ -97,7 +105,9 @@ describe "console.log JSON.stringify inserts with identifier", ->
         editor.moveToEndOfWord()
         editor.selectToEndOfWord()
         selection = editor.getSelectedText()
+        # coffeelint: disable=max_line_length
         insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
+        # coffeelint: enable=max_line_length
         consoleLog.addWithJSONStringify(devLayer)
         expect(editor.lineTextForScreenRow(1)).toEqual "#{insert}"
 
@@ -112,7 +122,9 @@ describe "console.log JSON.stringify inserts with identifier", ->
         editor.moveToEndOfWord()
         editor.selectToEndOfWord()
         selection = editor.getSelectedText()
+        # coffeelint: disable=max_line_length
         insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
+        # coffeelint: enable=max_line_length
         consoleLog.addWithJSONStringify(devLayer)
         expect(editor.lineTextForScreenRow(1)).toEqual "#{insert}"
 
@@ -126,7 +138,9 @@ describe "console.log JSON.stringify inserts with identifier", ->
         editor.moveToBeginningOfLine()
         editor.selectToEndOfWord()
         selection = editor.getSelectedText()
+        # coffeelint: disable=max_line_length
         insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}));"
+        # coffeelint: enable=max_line_length
         consoleLog.addWithJSONStringify(devLayer)
         expect(editor.getText()).toEqual """
         #{testString}

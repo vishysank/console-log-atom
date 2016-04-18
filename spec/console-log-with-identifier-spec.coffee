@@ -72,91 +72,75 @@ describe "console.log inserts with identifier", ->
           #{insert}
         """
 
-      it """
-        should add insert with identifier within es6 arrow function
-        if function param is selected
-      """, ->
-        editor = atom.workspace.getActiveTextEditor()
-        editor.insertText(testES6ArrowFunction)
-        editor.setCursorScreenPosition([0,0])
-        editor.moveToEndOfWord()
-        editor.moveToEndOfWord()
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        insert = "console.log('#{selection.toUpperCase()}', #{selection})"
-        consoleLog.add(devLayer)
-        expect(editor.lineTextForScreenRow(1)).toEqual "#{insert}"
+      describe "should add insert within function if param is selected", ->
+        it "for es6 arrow function", ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText(testES6ArrowFunction)
+          editor.setCursorScreenPosition([0,0])
+          editor.moveToEndOfWord()
+          editor.moveToEndOfWord()
+          editor.selectToEndOfWord()
+          selection = editor.getSelectedText()
+          insert = "console.log('#{selection.toUpperCase()}', #{selection})"
+          consoleLog.add(devLayer)
+          expect(editor.lineTextForScreenRow(1)).toEqual "#{insert}"
 
-      it """
-        should add insert with identifier outside es6 arrow function
-        if function name is selected
-      """, ->
-        editor = atom.workspace.getActiveTextEditor()
-        editor.insertText(testES6ArrowFunction)
-        editor.setCursorScreenPosition([0,0])
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        insert = "console.log('#{selection.toUpperCase()}', #{selection})"
-        consoleLog.add(devLayer)
-        expect(editor.lineTextForScreenRow(3)).toEqual "#{insert}"
+        it "for a js function", ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText(testJSFunction)
+          editor.setCursorScreenPosition([0,0])
+          editor.moveToEndOfWord()
+          editor.moveToEndOfWord()
+          editor.moveToEndOfWord()
+          editor.selectToEndOfWord()
+          selection = editor.getSelectedText()
+          insert = "console.log('#{selection.toUpperCase()}', #{selection})"
+          consoleLog.add(devLayer)
+          expect(editor.lineTextForScreenRow(1)).toEqual "#{insert}"
 
-      it """
-        should add insert with identifier within a js function
-        if function param is selected
-      """, ->
-        editor = atom.workspace.getActiveTextEditor()
-        editor.insertText(testJSFunction)
-        editor.setCursorScreenPosition([0,0])
-        editor.moveToEndOfWord()
-        editor.moveToEndOfWord()
-        editor.moveToEndOfWord()
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        insert = "console.log('#{selection.toUpperCase()}', #{selection})"
-        consoleLog.add(devLayer)
-        expect(editor.lineTextForScreenRow(1)).toEqual "#{insert}"
+        it "for a function without keyword", ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText(testFunctionWithoutKeyword)
+          editor.setCursorScreenPosition([0,0])
+          editor.moveToEndOfWord()
+          editor.moveToEndOfWord()
+          editor.selectToEndOfWord()
+          selection = editor.getSelectedText()
+          insert = "console.log('#{selection.toUpperCase()}', #{selection})"
+          consoleLog.add(devLayer)
+          expect(editor.lineTextForScreenRow(1)).toEqual "#{insert}"
 
-      it """
-        should add insert with identifier outside a js function
-        if function name is selected
-      """, ->
-        editor = atom.workspace.getActiveTextEditor()
-        editor.insertText(testJSFunction)
-        editor.setCursorScreenPosition([0,0])
-        editor.moveToEndOfWord()
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        insert = "console.log('#{selection.toUpperCase()}', #{selection})"
-        consoleLog.add(devLayer)
-        expect(editor.lineTextForScreenRow(3)).toEqual "#{insert}"
+      describe "should add insert outside function if name is selected", ->
+        it "for es6 arrow function", ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText(testES6ArrowFunction)
+          editor.setCursorScreenPosition([0,0])
+          editor.selectToEndOfWord()
+          selection = editor.getSelectedText()
+          insert = "console.log('#{selection.toUpperCase()}', #{selection})"
+          consoleLog.add(devLayer)
+          expect(editor.lineTextForScreenRow(3)).toEqual "#{insert}"
 
-      it """
-        should add insert with identifier within a function without keyword
-        if function param is selected
-      """, ->
-        editor = atom.workspace.getActiveTextEditor()
-        editor.insertText(testFunctionWithoutKeyword)
-        editor.setCursorScreenPosition([0,0])
-        editor.moveToEndOfWord()
-        editor.moveToEndOfWord()
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        insert = "console.log('#{selection.toUpperCase()}', #{selection})"
-        consoleLog.add(devLayer)
-        expect(editor.lineTextForScreenRow(1)).toEqual "#{insert}"
+        it "for a js function", ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText(testJSFunction)
+          editor.setCursorScreenPosition([0,0])
+          editor.moveToEndOfWord()
+          editor.selectToEndOfWord()
+          selection = editor.getSelectedText()
+          insert = "console.log('#{selection.toUpperCase()}', #{selection})"
+          consoleLog.add(devLayer)
+          expect(editor.lineTextForScreenRow(3)).toEqual "#{insert}"
 
-      it """
-        should add insert with identifier outside a function without keyword
-        if function name is selected
-      """, ->
-        editor = atom.workspace.getActiveTextEditor()
-        editor.insertText(testFunctionWithoutKeyword)
-        editor.setCursorScreenPosition([0,0])
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        insert = "console.log('#{selection.toUpperCase()}', #{selection})"
-        consoleLog.add(devLayer)
-        expect(editor.lineTextForScreenRow(3)).toEqual "#{insert}"
+        it "for a function without keyword", ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText(testFunctionWithoutKeyword)
+          editor.setCursorScreenPosition([0,0])
+          editor.selectToEndOfWord()
+          selection = editor.getSelectedText()
+          insert = "console.log('#{selection.toUpperCase()}', #{selection})"
+          consoleLog.add(devLayer)
+          expect(editor.lineTextForScreenRow(3)).toEqual "#{insert}"
 
       it """
         should have a semi colon at end of insert
@@ -218,25 +202,47 @@ describe "console.log inserts with identifier", ->
           #{insert}
         """
 
-      it """
-        should add insert with identifier within es6 arrow function
-        if function param is selected
-      """, ->
-        editor = atom.workspace.getActiveTextEditor()
-        editor.insertText(testES6ArrowFunction)
-        editor.setCursorScreenPosition([0,0])
-        editor.moveToEndOfWord()
-        editor.moveToEndOfWord()
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        insert = "console.log('#{selection}', #{selection})"
-        consoleLog.add(devLayer)
-        expect(editor.lineTextForScreenRow(1)).toEqual "#{insert}"
+      describe "should add insert within function if param is selected", ->
+        it "for es6 arrow function", ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText(testES6ArrowFunction)
+          editor.setCursorScreenPosition([0,0])
+          editor.moveToEndOfWord()
+          editor.moveToEndOfWord()
+          editor.selectToEndOfWord()
+          selection = editor.getSelectedText()
+          insert = "console.log('#{selection}', #{selection})"
+          consoleLog.add(devLayer)
+          expect(editor.lineTextForScreenRow(1)).toEqual "#{insert}"
 
-      it """
-        should add insert with identifier outside es6 arrow function
-        if function name is selected
-      """, ->
+        it "for a js function", ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText(testJSFunction)
+          editor.setCursorScreenPosition([0,0])
+          editor.moveToEndOfWord()
+          editor.moveToEndOfWord()
+          editor.moveToEndOfWord()
+          editor.selectToEndOfWord()
+          selection = editor.getSelectedText()
+          insert = "console.log('#{selection}', #{selection})"
+          consoleLog.add(devLayer)
+          expect(editor.lineTextForScreenRow(1)).toEqual "#{insert}"
+
+        it "for a function without keyword", ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText(testFunctionWithoutKeyword)
+          editor.setCursorScreenPosition([0,0])
+          editor.moveToEndOfWord()
+          editor.moveToEndOfWord()
+          editor.selectToEndOfWord()
+          selection = editor.getSelectedText()
+          insert = "console.log('#{selection}', #{selection})"
+          consoleLog.add(devLayer)
+          expect(editor.lineTextForScreenRow(1)).toEqual "#{insert}"
+
+
+      describe "should add insert outside function if name is selected", ->
+      it "for es6 arrow function", ->
         editor = atom.workspace.getActiveTextEditor()
         editor.insertText(testES6ArrowFunction)
         editor.setCursorScreenPosition([0,0])
@@ -246,26 +252,7 @@ describe "console.log inserts with identifier", ->
         consoleLog.add(devLayer)
         expect(editor.lineTextForScreenRow(3)).toEqual "#{insert}"
 
-      it """
-        should add insert with identifier within a js function
-        if function param is selected
-      """, ->
-        editor = atom.workspace.getActiveTextEditor()
-        editor.insertText(testJSFunction)
-        editor.setCursorScreenPosition([0,0])
-        editor.moveToEndOfWord()
-        editor.moveToEndOfWord()
-        editor.moveToEndOfWord()
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        insert = "console.log('#{selection}', #{selection})"
-        consoleLog.add(devLayer)
-        expect(editor.lineTextForScreenRow(1)).toEqual "#{insert}"
-
-      it """
-        should add insert with identifier outside a js function
-        if function name is selected
-      """, ->
+      it "for a js function", ->
         editor = atom.workspace.getActiveTextEditor()
         editor.insertText(testJSFunction)
         editor.setCursorScreenPosition([0,0])
@@ -276,25 +263,7 @@ describe "console.log inserts with identifier", ->
         consoleLog.add(devLayer)
         expect(editor.lineTextForScreenRow(3)).toEqual "#{insert}"
 
-      it """
-        should add insert with identifier within a function without keyword
-        if function param is selected
-      """, ->
-        editor = atom.workspace.getActiveTextEditor()
-        editor.insertText(testFunctionWithoutKeyword)
-        editor.setCursorScreenPosition([0,0])
-        editor.moveToEndOfWord()
-        editor.moveToEndOfWord()
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        insert = "console.log('#{selection}', #{selection})"
-        consoleLog.add(devLayer)
-        expect(editor.lineTextForScreenRow(1)).toEqual "#{insert}"
-
-      it """
-        should add insert with identifier outside a function without keyword
-        if function name is selected
-      """, ->
+      it "a function without keyword", ->
         editor = atom.workspace.getActiveTextEditor()
         editor.insertText(testFunctionWithoutKeyword)
         editor.setCursorScreenPosition([0,0])
@@ -356,7 +325,9 @@ describe "console.log inserts with identifier", ->
       editor.moveToBeginningOfLine()
       editor.selectToEndOfWord()
       selection = editor.getSelectedText()
+      # coffeelint: disable=max_line_length
       insert = "console.log('%c#{selection.toUpperCase()}', '#{backgroundStyleInsert}', #{selection})"
+      # coffeelint: enable=max_line_length
       consoleLog.add(devLayer)
       expect(editor.getText()).toEqual """
       #{testString}
@@ -371,7 +342,9 @@ describe "console.log inserts with identifier", ->
       editor.moveToBeginningOfLine()
       editor.selectToEndOfWord()
       selection = editor.getSelectedText()
+      # coffeelint: disable=max_line_length
       insert = "console.log('%c#{selection.toUpperCase()}', '#{textStyleInsert}', #{selection})"
+      # coffeelint: enable=max_line_length
       consoleLog.add(devLayer)
       expect(editor.getText()).toEqual """
       #{testString}
@@ -386,7 +359,9 @@ describe "console.log inserts with identifier", ->
       editor.moveToBeginningOfLine()
       editor.selectToEndOfWord()
       selection = editor.getSelectedText()
+      # coffeelint: disable=max_line_length
       insert = "console.log('%c#{selection.toUpperCase()}', '#{backgroundStyleInsert}#{textStyleInsert}', #{selection})"
+      # coffeelint: enable=max_line_length
       consoleLog.add(devLayer)
       expect(editor.getText()).toEqual """
       #{testString}
