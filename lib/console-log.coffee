@@ -7,7 +7,8 @@ module.exports =
       type: 'boolean'
       title: 'Include semi-colons at end of console.log function'
       description: """
-        Depending on the linting standard you use, you can choose to include semicolons. Defaults to no semi-colons
+        To meet linting requirements, you can choose to include semicolons.
+        Defaults to no semi-colons
         """
       default: false
     identifierCase:
@@ -58,7 +59,8 @@ module.exports =
     @subscriptions.add atom.commands.add 'atom-workspace',
       'console-log:add-with-JSON-stringify': => @addWithJSONStringify('backEnd')
     @subscriptions.add atom.commands.add 'atom-workspace',
-      'console-log:add-with-JSON-stringify-and-styling': => @addWithJSONStringify('frontEnd')
+      'console-log:add-with-JSON-stringify-and-styling': =>
+        @addWithJSONStringify('frontEnd')
     @subscriptions.add atom.commands.add 'atom-workspace',
       'console-log:deconsoler': => @deconsole()
 
@@ -74,7 +76,8 @@ module.exports =
       cursorOffset = if semiColonConfig then 2 else 1
 
       if selectedText.length > 0
-        backgroundStylingConfig = atom.config.get('console-log.backgroundStyling')
+        backgroundStylingConfig =
+          atom.config.get('console-log.backgroundStyling')
         textStylingConfig = atom.config.get('console-log.textStyling')
         backgroundStyle =
           if backgroundStylingConfig == 'none'
@@ -140,9 +143,13 @@ module.exports =
         editor.moveToEndOfLine()
         editor.insertNewline()
         if styles.length > 0
+          # coffeelint: disable=max_line_length
           editor.insertText("console.log('%c#{identifier}', '#{styles}', #{selectedText})#{semiColonValue}")
+          # coffeelint: enable=max_line_length
         else
+          # coffeelint: disable=max_line_length
           editor.insertText("console.log('#{identifier}', #{selectedText})#{semiColonValue}")
+          # coffeelint: enable=max_line_length
       else
         editor.insertText("console.log()#{semiColonValue}")
         editor.moveLeft(cursorOffset)
@@ -156,7 +163,8 @@ module.exports =
       cursorOffset = if semiColonConfig then 3 else 2
 
       if selectedText.length > 0
-        backgroundStylingConfig = atom.config.get('console-log.backgroundStyling')
+        backgroundStylingConfig =
+          atom.config.get('console-log.backgroundStyling')
         textStylingConfig = atom.config.get('console-log.textStyling')
         backgroundStyle =
           if backgroundStylingConfig == 'none'
@@ -215,9 +223,13 @@ module.exports =
         editor.moveToEndOfLine()
         editor.insertNewline()
         if styles.length > 0
+          # coffeelint: disable=max_line_length
           editor.insertText("console.log('%c#{identifier}', '#{styles}', JSON.stringify(#{selectedText}))#{semiColonValue}")
+          # coffeelint: enable=max_line_length
         else
+          # coffeelint: disable=max_line_length
           editor.insertText("console.log('#{identifier}', JSON.stringify(#{selectedText}))#{semiColonValue}")
+          # coffeelint: enable=max_line_length
       else
         editor.insertText("console.log(JSON.stringify())#{semiColonValue}")
         editor.moveLeft(cursorOffset)
