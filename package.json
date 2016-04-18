@@ -1,7 +1,7 @@
 {
   "name": "console-log",
   "main": "./lib/console-log",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A console.log generator, console.log cleaner (deconsoler)",
   "author": "Vishwam Sankar",
   "keywords": [
