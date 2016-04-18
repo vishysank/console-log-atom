@@ -183,6 +183,9 @@ module.exports =
         editorLineCount = editor.getLastScreenRow()
         checkedRows = 0
 
+        editor.selectToBeginningOfLine()
+        lineTextBeforeSelectedText = editor.getSelectedText().split("")
+
         editor.moveToBeginningOfLine()
         editor.selectToEndOfLine()
 
@@ -195,6 +198,10 @@ module.exports =
         objectCheckValues.forEach (e) ->
           if functionCheckSelection.indexOf(e) > -1
             objectFlag = false
+
+        if objectFlag == false
+          if lineTextBeforeSelectedText.indexOf('(') < 0
+            objectFlag = true
 
         if objectFlag == true
           objectCheckSelection.forEach (e) ->
