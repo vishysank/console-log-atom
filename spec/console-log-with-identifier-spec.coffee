@@ -1,6 +1,7 @@
 consoleLog = require("../lib/console-log.coffee")
 
 describe "console.log inserts with identifier", ->
+  insertType = 'simple'
   beforeEach ->
     waitsForPromise ->
       atom.workspace.open("test.js")
@@ -40,7 +41,7 @@ describe "console.log inserts with identifier", ->
         editor.selectToEndOfWord()
         selection = editor.getSelectedText()
         insert = "console.log('#{selection.toUpperCase()}', #{selection})"
-        consoleLog.add(devLayer)
+        consoleLog.add(devLayer, insertType)
         expect(editor.getText()).toContain "#{insert}"
 
       it """
@@ -53,7 +54,7 @@ describe "console.log inserts with identifier", ->
         editor.selectToEndOfWord()
         selection = editor.getSelectedText()
         insert = "console.log('#{selection.toUpperCase()}', #{selection})"
-        consoleLog.add(devLayer)
+        consoleLog.add(devLayer, insertType)
         expect(editor.getText()).toEqual """
           #{testString}
           #{insert}
@@ -66,7 +67,7 @@ describe "console.log inserts with identifier", ->
         editor.selectToEndOfWord()
         selection = editor.getSelectedText()
         insert = "console.log('#{selection.toUpperCase()}', #{selection})"
-        consoleLog.add(devLayer)
+        consoleLog.add(devLayer, insertType)
         expect(editor.getText()).toEqual """
           #{testObject}
           #{insert}
@@ -82,7 +83,7 @@ describe "console.log inserts with identifier", ->
           editor.selectToEndOfWord()
           selection = editor.getSelectedText()
           insert = "console.log('#{selection.toUpperCase()}', #{selection})"
-          consoleLog.add(devLayer)
+          consoleLog.add(devLayer, insertType)
           expect(editor.lineTextForScreenRow(1)).toEqual "#{insert}"
 
         it "for a js function", ->
@@ -95,7 +96,7 @@ describe "console.log inserts with identifier", ->
           editor.selectToEndOfWord()
           selection = editor.getSelectedText()
           insert = "console.log('#{selection.toUpperCase()}', #{selection})"
-          consoleLog.add(devLayer)
+          consoleLog.add(devLayer, insertType)
           expect(editor.lineTextForScreenRow(1)).toEqual "#{insert}"
 
         it "for a function without keyword", ->
@@ -107,7 +108,7 @@ describe "console.log inserts with identifier", ->
           editor.selectToEndOfWord()
           selection = editor.getSelectedText()
           insert = "console.log('#{selection.toUpperCase()}', #{selection})"
-          consoleLog.add(devLayer)
+          consoleLog.add(devLayer, insertType)
           expect(editor.lineTextForScreenRow(1)).toEqual "#{insert}"
 
       describe "should add insert outside function if name is selected", ->
@@ -118,7 +119,7 @@ describe "console.log inserts with identifier", ->
           editor.selectToEndOfWord()
           selection = editor.getSelectedText()
           insert = "console.log('#{selection.toUpperCase()}', #{selection})"
-          consoleLog.add(devLayer)
+          consoleLog.add(devLayer, insertType)
           expect(editor.lineTextForScreenRow(3)).toEqual "#{insert}"
 
         it "for a js function", ->
@@ -129,7 +130,7 @@ describe "console.log inserts with identifier", ->
           editor.selectToEndOfWord()
           selection = editor.getSelectedText()
           insert = "console.log('#{selection.toUpperCase()}', #{selection})"
-          consoleLog.add(devLayer)
+          consoleLog.add(devLayer, insertType)
           expect(editor.lineTextForScreenRow(3)).toEqual "#{insert}"
 
         it "for a function without keyword", ->
@@ -139,7 +140,7 @@ describe "console.log inserts with identifier", ->
           editor.selectToEndOfWord()
           selection = editor.getSelectedText()
           insert = "console.log('#{selection.toUpperCase()}', #{selection})"
-          consoleLog.add(devLayer)
+          consoleLog.add(devLayer, insertType)
           expect(editor.lineTextForScreenRow(3)).toEqual "#{insert}"
 
       it """
@@ -153,7 +154,7 @@ describe "console.log inserts with identifier", ->
         editor.selectToEndOfWord()
         selection = editor.getSelectedText()
         insert = "console.log('#{selection.toUpperCase()}', #{selection});"
-        consoleLog.add(devLayer)
+        consoleLog.add(devLayer, insertType)
         expect(editor.getText()).toEqual """
           #{testString}
           #{insert}
@@ -170,7 +171,7 @@ describe "console.log inserts with identifier", ->
         editor.selectToEndOfWord()
         selection = editor.getSelectedText()
         insert = "console.log('#{selection}', #{selection})"
-        consoleLog.add(devLayer)
+        consoleLog.add(devLayer, insertType)
         expect(editor.getText()).toContain "#{insert}"
 
       it """
@@ -183,7 +184,7 @@ describe "console.log inserts with identifier", ->
         editor.selectToEndOfWord()
         selection = editor.getSelectedText()
         insert = "console.log('#{selection}', #{selection})"
-        consoleLog.add(devLayer)
+        consoleLog.add(devLayer, insertType)
         expect(editor.getText()).toEqual """
           #{testString}
           #{insert}
@@ -196,7 +197,7 @@ describe "console.log inserts with identifier", ->
         editor.selectToEndOfWord()
         selection = editor.getSelectedText()
         insert = "console.log('#{selection}', #{selection})"
-        consoleLog.add(devLayer)
+        consoleLog.add(devLayer, insertType)
         expect(editor.getText()).toEqual """
           #{testObject}
           #{insert}
@@ -212,7 +213,7 @@ describe "console.log inserts with identifier", ->
           editor.selectToEndOfWord()
           selection = editor.getSelectedText()
           insert = "console.log('#{selection}', #{selection})"
-          consoleLog.add(devLayer)
+          consoleLog.add(devLayer, insertType)
           expect(editor.lineTextForScreenRow(1)).toEqual "#{insert}"
 
         it "for a js function", ->
@@ -225,7 +226,7 @@ describe "console.log inserts with identifier", ->
           editor.selectToEndOfWord()
           selection = editor.getSelectedText()
           insert = "console.log('#{selection}', #{selection})"
-          consoleLog.add(devLayer)
+          consoleLog.add(devLayer, insertType)
           expect(editor.lineTextForScreenRow(1)).toEqual "#{insert}"
 
         it "for a function without keyword", ->
@@ -237,7 +238,7 @@ describe "console.log inserts with identifier", ->
           editor.selectToEndOfWord()
           selection = editor.getSelectedText()
           insert = "console.log('#{selection}', #{selection})"
-          consoleLog.add(devLayer)
+          consoleLog.add(devLayer, insertType)
           expect(editor.lineTextForScreenRow(1)).toEqual "#{insert}"
 
 
@@ -249,7 +250,7 @@ describe "console.log inserts with identifier", ->
         editor.selectToEndOfWord()
         selection = editor.getSelectedText()
         insert = "console.log('#{selection}', #{selection})"
-        consoleLog.add(devLayer)
+        consoleLog.add(devLayer, insertType)
         expect(editor.lineTextForScreenRow(3)).toEqual "#{insert}"
 
       it "for a js function", ->
@@ -260,7 +261,7 @@ describe "console.log inserts with identifier", ->
         editor.selectToEndOfWord()
         selection = editor.getSelectedText()
         insert = "console.log('#{selection}', #{selection})"
-        consoleLog.add(devLayer)
+        consoleLog.add(devLayer, insertType)
         expect(editor.lineTextForScreenRow(3)).toEqual "#{insert}"
 
       it "a function without keyword", ->
@@ -270,7 +271,7 @@ describe "console.log inserts with identifier", ->
         editor.selectToEndOfWord()
         selection = editor.getSelectedText()
         insert = "console.log('#{selection}', #{selection})"
-        consoleLog.add(devLayer)
+        consoleLog.add(devLayer, insertType)
         expect(editor.lineTextForScreenRow(3)).toEqual "#{insert}"
 
       it """
@@ -284,7 +285,7 @@ describe "console.log inserts with identifier", ->
         editor.selectToEndOfWord()
         selection = editor.getSelectedText()
         insert = "console.log('#{selection}', #{selection});"
-        consoleLog.add(devLayer)
+        consoleLog.add(devLayer, insertType)
         expect(editor.getText()).toEqual """
           #{testString}
           #{insert}
@@ -311,7 +312,7 @@ describe "console.log inserts with identifier", ->
       editor.selectToEndOfWord()
       selection = editor.getSelectedText()
       insert = "console.log('#{selection.toUpperCase()}', #{selection})"
-      consoleLog.add(devLayer)
+      consoleLog.add(devLayer, insertType)
       expect(editor.getText()).toEqual """
       #{testString}
       #{insert}
@@ -328,7 +329,7 @@ describe "console.log inserts with identifier", ->
       # coffeelint: disable=max_line_length
       insert = "console.log('%c#{selection.toUpperCase()}', '#{backgroundStyleInsert}', #{selection})"
       # coffeelint: enable=max_line_length
-      consoleLog.add(devLayer)
+      consoleLog.add(devLayer, insertType)
       expect(editor.getText()).toEqual """
       #{testString}
       #{insert}
@@ -345,7 +346,7 @@ describe "console.log inserts with identifier", ->
       # coffeelint: disable=max_line_length
       insert = "console.log('%c#{selection.toUpperCase()}', '#{textStyleInsert}', #{selection})"
       # coffeelint: enable=max_line_length
-      consoleLog.add(devLayer)
+      consoleLog.add(devLayer, insertType)
       expect(editor.getText()).toEqual """
       #{testString}
       #{insert}
@@ -362,7 +363,7 @@ describe "console.log inserts with identifier", ->
       # coffeelint: disable=max_line_length
       insert = "console.log('%c#{selection.toUpperCase()}', '#{backgroundStyleInsert}#{textStyleInsert}', #{selection})"
       # coffeelint: enable=max_line_length
-      consoleLog.add(devLayer)
+      consoleLog.add(devLayer, insertType)
       expect(editor.getText()).toEqual """
       #{testString}
       #{insert}

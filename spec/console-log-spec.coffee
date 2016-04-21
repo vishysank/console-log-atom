@@ -1,6 +1,7 @@
 consoleLog = require("../lib/console-log.coffee")
 
 describe "console.log inserts", ->
+  insertType = 'simple'
   beforeEach ->
     waitsForPromise ->
       atom.workspace.open("test.js")
@@ -14,15 +15,15 @@ describe "console.log inserts", ->
     it "should add insert at cursor position", ->
       editor = atom.workspace.getActiveTextEditor()
       editor.insertText(testString)
-      consoleLog.add(devLayer)
+      consoleLog.add(devLayer, insertType)
       expect(editor.getText()).toEqual "#{testString}#{insert}"
       editor.moveToBeginningOfLine()
-      consoleLog.add(devLayer)
+      consoleLog.add(devLayer, insertType)
       expect(editor.getText()).toEqual "#{insert}#{testString}#{insert}"
 
     it "should add cursor between parenthesis of insert", ->
       editor = atom.workspace.getActiveTextEditor()
-      consoleLog.add(devLayer)
+      consoleLog.add(devLayer, insertType)
       editor.selectToEndOfLine()
       expect(editor.getSelectedText()).toEqual ")"
 
@@ -32,7 +33,7 @@ describe "console.log inserts", ->
     """, ->
       editor = atom.workspace.getActiveTextEditor()
       atom.config.set('console-log.semiColons', true)
-      consoleLog.add(devLayer)
+      consoleLog.add(devLayer, insertType)
       expect(editor.getText()).toEqual "#{insert};"
 
   describe "front end inserts", ->
@@ -41,7 +42,7 @@ describe "console.log inserts", ->
 
     it "should have no styling if configs are set to none", ->
       editor = atom.workspace.getActiveTextEditor()
-      consoleLog.add(devLayer)
+      consoleLog.add(devLayer, insertType)
       expect(editor.getText()).toEqual insert
 
     it """
@@ -50,7 +51,7 @@ describe "console.log inserts", ->
     """, ->
       editor = atom.workspace.getActiveTextEditor()
       atom.config.set('console-log.backgroundStyling', styleColor)
-      consoleLog.add(devLayer)
+      consoleLog.add(devLayer, insertType)
       expect(editor.getText()).toEqual insert
 
     it """
@@ -59,5 +60,5 @@ describe "console.log inserts", ->
     """, ->
       editor = atom.workspace.getActiveTextEditor()
       atom.config.set('console-log.textStyling', styleColor)
-      consoleLog.add(devLayer)
+      consoleLog.add(devLayer, insertType)
       expect(editor.getText()).toEqual insert

@@ -1,6 +1,7 @@
 consoleLog = require("../lib/console-log.coffee")
 
 describe "console.log with JSON.stringify inserts", ->
+  insertType = 'stringify'
   beforeEach ->
     waitsForPromise ->
       atom.workspace.open("test.js")
@@ -13,16 +14,16 @@ describe "console.log with JSON.stringify inserts", ->
     it "should add insert at cursor position", ->
       editor = atom.workspace.getActiveTextEditor()
       editor.insertText(testString)
-      consoleLog.addWithJSONStringify(devLayer)
+      consoleLog.add(devLayer, insertType)
       expect(editor.getText()).toEqual "#{testString}#{insert}"
       editor.moveToBeginningOfLine()
-      consoleLog.addWithJSONStringify(devLayer)
+      consoleLog.add(devLayer, insertType)
       expect(editor.getText()).toEqual "#{insert}#{testString}#{insert}"
 
     it "should add cursor between parenthesis of insert", ->
       editor = atom.workspace.getActiveTextEditor()
       editor.insertText(testString)
-      consoleLog.addWithJSONStringify(devLayer)
+      consoleLog.add(devLayer, insertType)
       expect(editor.getText()).toEqual "#{testString}#{insert}"
       editor.selectToEndOfLine()
       expect(editor.getSelectedText()).toEqual "))"
@@ -34,5 +35,5 @@ describe "console.log with JSON.stringify inserts", ->
       editor = atom.workspace.getActiveTextEditor()
       atom.config.set('console-log.semiColons', true)
       editor.insertText(testString)
-      consoleLog.addWithJSONStringify(devLayer)
+      consoleLog.add(devLayer, insertType)
       expect(editor.getText()).toEqual "#{testString}#{insert};"
