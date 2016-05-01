@@ -127,6 +127,9 @@ module.exports =
             # coffeelint: disable=max_line_length
             editor.insertText("console.log('#{identifier}', #{selectedTextInsert})#{semiColonValue}")
             # coffeelint: enable=max_line_length
+          editor.moveToBeginningOfLine()
+          editor.selectToEndOfLine()
+          editor.autoIndentSelectedRows()
         else
           editor.moveToEndOfLine()
           editor.insertNewline()
