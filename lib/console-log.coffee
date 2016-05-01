@@ -117,6 +117,8 @@ module.exports =
 
         if conditionalFlag == true
           editor.moveToBeginningOfLine()
+          editor.insertNewline()
+          editor.moveUp(1)
           if styles.length > 0
             # coffeelint: disable=max_line_length
             editor.insertText("console.log('%c#{identifier}', '#{styles}', #{selectedTextInsert})#{semiColonValue}")
@@ -125,7 +127,6 @@ module.exports =
             # coffeelint: disable=max_line_length
             editor.insertText("console.log('#{identifier}', #{selectedTextInsert})#{semiColonValue}")
             # coffeelint: enable=max_line_length
-          editor.insertNewline()
         else
           editor.moveToEndOfLine()
           editor.insertNewline()
