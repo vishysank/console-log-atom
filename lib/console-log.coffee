@@ -25,7 +25,6 @@ module.exports =
   deactivate: ->
     @subscriptions.dispose()
 
-  # TODO: move add to a new file
   add: (devLayer, insertType) ->
     if editor = atom.workspace.getActiveTextEditor()
       selectedText = editor.getSelectedText()
@@ -74,17 +73,23 @@ module.exports =
 
         functionCheckSelection = editor.getSelectedText()
         objectCheckSelection = editor.getSelectedText().split("")
-        objectCheckValues = ['=>', "function", "if", "){", ") {"]
+        functionCheckValues = ['=>', "function", "if", "){", ") {"]
+        conditionalCheckValues = ["if"]
+        conditionalFlag = false
         objectFlag = true
         objectCount = 0
 
-        objectCheckValues.forEach (e) ->
+        functionCheckValues.forEach (e) ->
           if functionCheckSelection.indexOf(e) > -1
             objectFlag = false
 
-        if objectFlag == false
-          if lineTextBeforeSelectedText.indexOf('(') < 0
-            objectFlag = true
+        if lineTextBeforeSelectedText.indexOf('(') < 0
+          objectFlag = true
+
+        conditionalCheckValues.forEach (e) ->
+          if functionCheckSelection.indexOf(e) > -1
+            objectFlag = false
+            conditionalFlag = true
 
         if objectFlag == true
           objectCheckSelection.forEach (e) ->
@@ -110,16 +115,28 @@ module.exports =
             editor.moveUp(checkedRows)
             objectCount = 0
 
-        editor.moveToEndOfLine()
-        editor.insertNewline()
-        if styles.length > 0
-          # coffeelint: disable=max_line_length
-          editor.insertText("console.log('%c#{identifier}', '#{styles}', #{selectedTextInsert})#{semiColonValue}")
-          # coffeelint: enable=max_line_length
+        if conditionalFlag == true
+          editor.moveToBeginningOfLine()
+          if styles.length > 0
+            # coffeelint: disable=max_line_length
+            editor.insertText("console.log('%c#{identifier}', '#{styles}', #{selectedTextInsert})#{semiColonValue}")
+            # coffeelint: enable=max_line_length
+          else
+            # coffeelint: disable=max_line_length
+            editor.insertText("console.log('#{identifier}', #{selectedTextInsert})#{semiColonValue}")
+            # coffeelint: enable=max_line_length
+          editor.insertNewline()
         else
-          # coffeelint: disable=max_line_length
-          editor.insertText("console.log('#{identifier}', #{selectedTextInsert})#{semiColonValue}")
-          # coffeelint: enable=max_line_length
+          editor.moveToEndOfLine()
+          editor.insertNewline()
+          if styles.length > 0
+            # coffeelint: disable=max_line_length
+            editor.insertText("console.log('%c#{identifier}', '#{styles}', #{selectedTextInsert})#{semiColonValue}")
+            # coffeelint: enable=max_line_length
+          else
+            # coffeelint: disable=max_line_length
+            editor.insertText("console.log('#{identifier}', #{selectedTextInsert})#{semiColonValue}")
+            # coffeelint: enable=max_line_length
       else
         editor.insertText("#{emptyInsert}#{semiColonValue}")
         editor.moveLeft(cursorOffset)
@@ -158,9 +175,9 @@ module.exports =
 
       atom.notifications.addSuccess "#{filePath} has been deconsoled",
         detail: """
-        #{rowsToBeDeconsoled.length} rows with console.log have been removed
-        Line locations: #{messageRowSet}
-        If you want to revert after closing this message,
-        hit "undo" twice
+          #{rowsToBeDeconsoled.length} rows with console.log have been removed
+          Line locations: #{messageRowSet}
+          If you want to revert after closing this message,
+          hit "undo" twice
         """,
         dismissable: true

@@ -29,6 +29,11 @@ describe "console.log inserts with identifier", ->
       return 'some value'
     }
   """
+  testConditional = """
+    if (test === test1) {
+      return 'test2'
+    }
+  """
 
   describe "back end inserts", ->
     devLayer = "backEnd"
@@ -142,6 +147,18 @@ describe "console.log inserts with identifier", ->
           insert = "console.log('#{selection.toUpperCase()}', #{selection})"
           consoleLog.add(devLayer, insertType)
           expect(editor.lineTextForScreenRow(3)).toEqual "#{insert}"
+
+      it "should add insert above conditional", ->
+        editor = atom.workspace.getActiveTextEditor()
+        editor.insertText(testConditional)
+        editor.setCursorScreenPosition([0,0])
+        editor.moveToEndOfWord()
+        editor.moveToEndOfWord()
+        editor.selectToEndOfWord()
+        selection = editor.getSelectedText()
+        insert = "console.log('#{selection.toUpperCase()}', #{selection})"
+        consoleLog.add(devLayer, insertType)
+        expect(editor.lineTextForScreenRow(0)).toEqual "#{insert}"
 
       it """
         should have a semi colon at end of insert
@@ -273,6 +290,18 @@ describe "console.log inserts with identifier", ->
         insert = "console.log('#{selection}', #{selection})"
         consoleLog.add(devLayer, insertType)
         expect(editor.lineTextForScreenRow(3)).toEqual "#{insert}"
+
+      it "should add insert above conditional", ->
+        editor = atom.workspace.getActiveTextEditor()
+        editor.insertText(testConditional)
+        editor.setCursorScreenPosition([0,0])
+        editor.moveToEndOfWord()
+        editor.moveToEndOfWord()
+        editor.selectToEndOfWord()
+        selection = editor.getSelectedText()
+        insert = "console.log('#{selection}', #{selection})"
+        consoleLog.add(devLayer, insertType)
+        expect(editor.lineTextForScreenRow(0)).toEqual "#{insert}"
 
       it """
         should have a semi colon at end of insert
