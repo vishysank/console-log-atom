@@ -43,7 +43,7 @@ You can install this package from the CLI or from the Editor.
 * Javascript
 
 ## Coming soon !
-* Smart console.log functionality for functions
+* Support for single line es6 arrow functions
 * **code contributions are welcome.**
 
 ## Help me help you !

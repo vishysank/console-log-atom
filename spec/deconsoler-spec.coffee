@@ -1,9 +1,9 @@
-consoleLog = require("../lib/console-log.coffee")
+consoleLog = require "../lib/console-log.coffee"
 
 describe "Deconsoler", ->
   beforeEach ->
     waitsForPromise ->
-      atom.workspace.open("test.js")
+      atom.workspace.open "test.js"
 
   testString = """
     console.log('test');
@@ -24,19 +24,19 @@ describe "Deconsoler", ->
 
   it "should remove all console.log statements", ->
     editor = atom.workspace.getActiveTextEditor()
-    editor.insertText(testString)
+    editor.insertText testString
     consoleLog.deconsole()
     expect(editor.getText()).toNotContain "console.log"
 
   it "should remove lines that contain console.log statements", ->
     editor = atom.workspace.getActiveTextEditor()
-    editor.insertText(testString)
+    editor.insertText testString
     consoleLog.deconsole()
     expect(editor.getText()).toEqual testStringWithoutConsoleInserts
 
   it "should remove lines that contain console.log statements", ->
     editor = atom.workspace.getActiveTextEditor()
-    editor.insertText(testString)
+    editor.insertText testString
     consoleLog.deconsole()
     notificationArray = atom.notifications.getNotifications()
     expect(notificationArray[0].type).toEqual "success"

@@ -1,5 +1,7 @@
 {CompositeDisposable} = require 'atom'
-settings = require('./config')
+settings = require './config'
+methods = require './methods'
+insertProps = require './insertProps'
 
 module.exports =
   config: settings.config
@@ -9,16 +11,16 @@ module.exports =
     @subscriptions = new CompositeDisposable
     @subscriptions.add atom.commands.add 'atom-workspace',
       'console-log:add': =>
-        @add('backEnd', 'simple')
+        @add 'backEnd', 'simple'
     @subscriptions.add atom.commands.add 'atom-workspace',
       'console-log:add-with-styling': =>
-        @add('frontEnd', 'simple')
+        @add 'frontEnd', 'simple'
     @subscriptions.add atom.commands.add 'atom-workspace',
       'console-log:add-with-JSON-stringify': =>
-        @add('backEnd', 'stringify')
+        @add 'backEnd', 'stringify'
     @subscriptions.add atom.commands.add 'atom-workspace',
       'console-log:add-with-JSON-stringify-and-styling': =>
-        @add('frontEnd', 'stringify')
+        @add 'frontEnd', 'stringify'
     @subscriptions.add atom.commands.add 'atom-workspace',
       'console-log:deconsoler': => @deconsole()
 
@@ -27,105 +29,95 @@ module.exports =
 
   add: (devLayer, insertType) ->
     if editor = atom.workspace.getActiveTextEditor()
+      configProp = methods.getConfig
+      cursorOffset = insertProps[insertType].cursorOffset
+      emptyInsert = insertProps[insertType].emptyInsert
       selectedText = editor.getSelectedText()
-      semiColonConfig = atom.config.get('console-log.semiColons')
+      semiColonConfig = configProp 'console-log.semiColons'
       semiColonValue = ''
-      cursorOffset = switch insertType
-        when 'simple' then 1
-        when 'stringify' then 2
-      emptyInsert = switch insertType
-        when 'simple' then 'console.log()'
-        when 'stringify' then 'console.log(JSON.stringify())'
+      styleValues = methods.setStyleValue
 
       if semiColonConfig
         semiColonValue = ';'
         cursorOffset++
 
       if selectedText.length > 0
-        backgroundStylingConfig =
-          atom.config.get('console-log.backgroundStyling')
-        textStylingConfig = atom.config.get('console-log.textStyling')
-        backgroundStyle =
-          if backgroundStylingConfig == 'none'
-          then '' else "background:#{backgroundStylingConfig}; "
-        textStyle =
-          if textStylingConfig == 'none'
-          then '' else "color:#{textStylingConfig};"
-        styles =
-          if devLayer == 'frontEnd'
-          then "#{backgroundStyle}#{textStyle}" else ''
-        identifierCaseConfig = atom.config.get('console-log.identifierCase')
+        backgroundStylingConfig = configProp 'console-log.backgroundStyling'
+        backgroundStyle = styleValues 'background', backgroundStylingConfig
+        checkedRows = 0
+        conditionalCheckValues = ["if"]
+        conditionalFlag = false
+        editorLineCount = editor.getLastScreenRow()
+        functionCheckValues = ['=>', "function", "){", ") {"]
+        identifierCaseConfig = configProp 'console-log.identifierCase'
         identifier =
           if identifierCaseConfig
           then selectedText else selectedText.toUpperCase()
-        selectedTextScreenRow = editor.getSelectedScreenRange().getRows()
-        editorLineCount = editor.getLastScreenRow()
-        checkedRows = 0
-        selectedTextInsert = switch insertType
-          when 'simple' then "#{selectedText}"
-          when 'stringify' then "JSON.stringify(#{selectedText})"
 
-        editor.selectToBeginningOfLine()
-        lineTextBeforeSelectedText = editor.getSelectedText().split("")
-
-        editor.moveToBeginningOfLine()
-        editor.selectToEndOfLine()
-
-        functionCheckSelection = editor.getSelectedText()
-        objectCheckSelection = editor.getSelectedText().split("")
-        functionCheckValues = ['=>', "function", "if", "){", ") {"]
-        conditionalCheckValues = ["if"]
-        conditionalFlag = false
         objectFlag = true
         objectCount = 0
+        selectedTextScreenRow = editor.getSelectedScreenRange().getRows()
 
-        functionCheckValues.forEach (e) ->
-          if functionCheckSelection.indexOf(e) > -1
+        selectedTextInsert =
+          insertProps[insertType].selectedTextInsert selectedText
+        textStylingConfig = configProp 'console-log.textStyling'
+        textStyle = styleValues 'color', textStylingConfig
+        styles =
+          if devLayer == 'frontEnd'
+          then "#{backgroundStyle}#{textStyle}" else ''
+
+        editor.selectToBeginningOfLine()
+        lineTextBeforeSelectedText = editor.getSelectedText().split ''
+        editor.moveToBeginningOfLine()
+        editor.selectToEndOfLine()
+        functionCheckSelection = editor.getSelectedText()
+        objectCheckSelection = functionCheckSelection.split ''
+
+        for val in functionCheckValues
+          if functionCheckSelection.indexOf(val) > -1
             objectFlag = false
 
-        if lineTextBeforeSelectedText.indexOf('(') < 0
+        if '(' not in lineTextBeforeSelectedText
           objectFlag = true
 
-        conditionalCheckValues.forEach (e) ->
-          if functionCheckSelection.indexOf(e) > -1
+        for val in conditionalCheckValues
+          if functionCheckSelection.indexOf(val) > -1
             objectFlag = false
             conditionalFlag = true
 
-        if objectFlag == true
-          objectCheckSelection.forEach (e) ->
-            if e == '{'
-              objectCount++
-            if e == '}'
-              objectCount--
+        if objectFlag
+          # for val in objectCheckSelection
+          #   if val == '{'
+          #     objectCount++
+          #   if val == '}'
+          #     objectCount--
+          objectCount = objectCount + methods.objectCheck objectCheckSelection
 
         while objectCount > 0
           if selectedTextScreenRow < editorLineCount
             editor.moveToBeginningOfLine()
-            editor.moveDown(1)
+            editor.moveDown 1
             editor.selectToEndOfLine()
             selectedTextScreenRow++
             checkedRows++
-            objectCheckSelection = editor.getSelectedText().split("")
-            objectCheckSelection.forEach (e) ->
-              if e == '{'
-                objectCount++
-              if e == '}'
-                objectCount--
+            objectCheckSelection = editor.getSelectedText().split ''
+            objectCount =
+              objectCount + methods.objectCheck objectCheckSelection
           else
-            editor.moveUp(checkedRows)
+            editor.moveUp checkedRows
             objectCount = 0
 
-        if conditionalFlag == true
+        if conditionalFlag
           editor.moveToBeginningOfLine()
           editor.insertNewline()
-          editor.moveUp(1)
+          editor.moveUp 1
           if styles.length > 0
             # coffeelint: disable=max_line_length
-            editor.insertText("console.log('%c#{identifier}', '#{styles}', #{selectedTextInsert})#{semiColonValue}")
+            editor.insertText "console.log('%c#{identifier}', '#{styles}', #{selectedTextInsert})#{semiColonValue}"
             # coffeelint: enable=max_line_length
           else
             # coffeelint: disable=max_line_length
-            editor.insertText("console.log('#{identifier}', #{selectedTextInsert})#{semiColonValue}")
+            editor.insertText "console.log('#{identifier}', #{selectedTextInsert})#{semiColonValue}"
             # coffeelint: enable=max_line_length
           editor.moveToBeginningOfLine()
           editor.selectToEndOfLine()
@@ -135,19 +127,19 @@ module.exports =
           editor.insertNewline()
           if styles.length > 0
             # coffeelint: disable=max_line_length
-            editor.insertText("console.log('%c#{identifier}', '#{styles}', #{selectedTextInsert})#{semiColonValue}")
+            editor.insertText "console.log('%c#{identifier}', '#{styles}', #{selectedTextInsert})#{semiColonValue}"
             # coffeelint: enable=max_line_length
           else
             # coffeelint: disable=max_line_length
-            editor.insertText("console.log('#{identifier}', #{selectedTextInsert})#{semiColonValue}")
+            editor.insertText "console.log('#{identifier}', #{selectedTextInsert})#{semiColonValue}"
             # coffeelint: enable=max_line_length
       else
-        editor.insertText("#{emptyInsert}#{semiColonValue}")
-        editor.moveLeft(cursorOffset)
+        editor.insertText "#{emptyInsert}#{semiColonValue}"
+        editor.moveLeft cursorOffset
 
   deconsole: ->
     if editor = atom.workspace.getActiveTextEditor()
-      editor.setCursorScreenPosition([0,0])
+      editor.setCursorScreenPosition [0,0]
       editorLineCount = editor.getLastScreenRow()
       checkedRow = 0
       rowsToBeDeconsoled = []
@@ -164,18 +156,18 @@ module.exports =
 
         checkedRow++
         editor.moveToBeginningOfLine()
-        editor.moveDown(1)
+        editor.moveDown 1
 
-      editor.setCursorScreenPosition([(editorLineCount+1), 0])
+      editor.setCursorScreenPosition [(editorLineCount+1), 0]
 
-      rowsToBeDeconsoled.forEach (row) ->
-        editor.addCursorAtScreenPosition([row,0])
+      for row in rowsToBeDeconsoled
+        editor.addCursorAtScreenPosition [row,0]
         editor.selectToEndOfLine()
         messageRowSet.push (row * 1) + 1
 
       if rowsToBeDeconsoled.length > 0
         editor.deleteLine()
-        editor.setCursorScreenPosition([0,0])
+        editor.setCursorScreenPosition [0,0]
 
       atom.notifications.addSuccess "#{filePath} has been deconsoled",
         detail: """

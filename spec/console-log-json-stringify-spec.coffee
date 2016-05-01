@@ -1,10 +1,10 @@
-consoleLog = require("../lib/console-log.coffee")
+consoleLog = require "../lib/console-log.coffee"
 
 describe "console.log with JSON.stringify inserts", ->
   insertType = 'stringify'
   beforeEach ->
     waitsForPromise ->
-      atom.workspace.open("test.js")
+      atom.workspace.open "test.js"
 
   describe "back end inserts", ->
     devLayer = "backEnd"
@@ -13,17 +13,17 @@ describe "console.log with JSON.stringify inserts", ->
 
     it "should add insert at cursor position", ->
       editor = atom.workspace.getActiveTextEditor()
-      editor.insertText(testString)
-      consoleLog.add(devLayer, insertType)
+      editor.insertText testString
+      consoleLog.add devLayer, insertType
       expect(editor.getText()).toEqual "#{testString}#{insert}"
       editor.moveToBeginningOfLine()
-      consoleLog.add(devLayer, insertType)
+      consoleLog.add devLayer, insertType
       expect(editor.getText()).toEqual "#{insert}#{testString}#{insert}"
 
     it "should add cursor between parenthesis of insert", ->
       editor = atom.workspace.getActiveTextEditor()
-      editor.insertText(testString)
-      consoleLog.add(devLayer, insertType)
+      editor.insertText testString
+      consoleLog.add devLayer, insertType
       expect(editor.getText()).toEqual "#{testString}#{insert}"
       editor.selectToEndOfLine()
       expect(editor.getSelectedText()).toEqual "))"
@@ -33,7 +33,7 @@ describe "console.log with JSON.stringify inserts", ->
       if semi colon config is chosen
     """, ->
       editor = atom.workspace.getActiveTextEditor()
-      atom.config.set('console-log.semiColons', true)
-      editor.insertText(testString)
-      consoleLog.add(devLayer, insertType)
+      atom.config.set 'console-log.semiColons', true
+      editor.insertText testString
+      consoleLog.add devLayer, insertType
       expect(editor.getText()).toEqual "#{testString}#{insert};"
