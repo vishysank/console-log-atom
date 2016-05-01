@@ -35,3 +35,6 @@
 ## 1.1.0 - First incomplete build of smart function console.logging
 * Console log statement is placed inside the function if param is chosen
 * console log statement is placed outside the function if function name is chosen
+
+## 1.2.0 - Smart Conditionals Logging (early release)
+* if a variable used in a definition of an if statement is used, so that the logging is not lost if the condition doesn't pass, the insert is placed on the line above the if statement.
