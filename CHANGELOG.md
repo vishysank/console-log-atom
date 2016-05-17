@@ -38,3 +38,6 @@
 
 ## 1.2.0 - Smart Conditionals Logging (early release)
 * if a variable used in a definition of an if statement is used, so that the logging is not lost if the condition doesn't pass, the insert is placed on the line above the if statement.
+
+## 1.3.0 - Smart conditional logging, with improved behaviour for chained Conditionals
+* if a variable used in a definition of an if statement is used, so that the logging is not lost if the condition doesn't pass, the insert is placed on the line above the if statement. For subsequent conditionals, the insert is placed within the conditional

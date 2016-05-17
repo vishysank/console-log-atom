@@ -28,6 +28,8 @@ describe "console.log JSON.stringify inserts with identifier", ->
   testConditional = """
     if (test === test1) {
       return 'test2'
+    } else if (test === test3) {
+      return 'test4'
     }
   """
   beforeEach ->
@@ -165,7 +167,7 @@ describe "console.log JSON.stringify inserts with identifier", ->
           consoleLog.add devLayer, insertType
           expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
 
-      it "should add insert above conditional", ->
+      it "should add insert above first conditional", ->
         editor = atom.workspace.getActiveTextEditor()
         editor.insertText testConditional
         editor.setCursorScreenPosition [0,0]
@@ -178,6 +180,22 @@ describe "console.log JSON.stringify inserts with identifier", ->
         # coffeelint: enable=max_line_length
         consoleLog.add devLayer, insertType
         expect(editor.lineTextForScreenRow 0).toEqual "#{insert}"
+
+      it "should add insert inside chained conditional", ->
+        editor = atom.workspace.getActiveTextEditor()
+        editor.insertText testConditional
+        editor.setCursorScreenPosition [2,0]
+        editor.moveToEndOfWord()
+        editor.moveToEndOfWord()
+        editor.moveToEndOfWord()
+        editor.moveToEndOfWord()
+        editor.selectToEndOfWord()
+        selection = editor.getSelectedText()
+        # coffeelint: disable=max_line_length
+        insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
+        # coffeelint: enable=max_line_length
+        consoleLog.add devLayer, insertType
+        expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
 
       it """
         should have a semi colon at end of insert
@@ -310,7 +328,7 @@ describe "console.log JSON.stringify inserts with identifier", ->
           consoleLog.add devLayer, insertType
           expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
 
-      it "should add insert above conditional", ->
+      it "should add insert above first conditional", ->
         editor = atom.workspace.getActiveTextEditor()
         editor.insertText testConditional
         editor.setCursorScreenPosition [0,0]
@@ -323,6 +341,22 @@ describe "console.log JSON.stringify inserts with identifier", ->
         # coffeelint: enable=max_line_length
         consoleLog.add devLayer, insertType
         expect(editor.lineTextForScreenRow 0).toEqual "#{insert}"
+
+      it "should add insert inside chained conditional", ->
+        editor = atom.workspace.getActiveTextEditor()
+        editor.insertText testConditional
+        editor.setCursorScreenPosition [2,0]
+        editor.moveToEndOfWord()
+        editor.moveToEndOfWord()
+        editor.moveToEndOfWord()
+        editor.moveToEndOfWord()
+        editor.selectToEndOfWord()
+        selection = editor.getSelectedText()
+        # coffeelint: disable=max_line_length
+        insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
+        # coffeelint: enable=max_line_length
+        consoleLog.add devLayer, insertType
+        expect(editor.lineTextForScreenRow 2).toEqual "#{insert}"
 
       it """
         should have a semi colon at end of insert

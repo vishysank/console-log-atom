@@ -46,6 +46,7 @@ module.exports =
         backgroundStyle = styleValues 'background', backgroundStylingConfig
         checkedRows = 0
         conditionalCheckValues = ["if"]
+        chainedconditionalCheckValues = ["else if"]
         conditionalFlag = false
         editorLineCount = editor.getLastScreenRow()
         functionCheckValues = ['=>', "function", "){", ") {"]
@@ -85,12 +86,12 @@ module.exports =
             objectFlag = false
             conditionalFlag = true
 
+        for val in chainedconditionalCheckValues
+          if functionCheckSelection.indexOf(val) > -1
+            objectFlag = false
+            conditionalFlag = false
+
         if objectFlag
-          # for val in objectCheckSelection
-          #   if val == '{'
-          #     objectCount++
-          #   if val == '}'
-          #     objectCount--
           objectCount = objectCount + methods.objectCheck objectCheckSelection
 
         while objectCount > 0

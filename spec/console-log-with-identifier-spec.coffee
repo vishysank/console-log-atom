@@ -32,6 +32,8 @@ describe "console.log inserts with identifier", ->
   testConditional = """
     if (test === test1) {
       return 'test2'
+    } else if (test === test3) {
+      return 'test4'
     }
   """
 
@@ -148,7 +150,7 @@ describe "console.log inserts with identifier", ->
           consoleLog.add devLayer, insertType
           expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
 
-      it "should add insert above conditional", ->
+      it "should add insert above first conditional", ->
         editor = atom.workspace.getActiveTextEditor()
         editor.insertText testConditional
         editor.setCursorScreenPosition [0,0]
@@ -159,6 +161,20 @@ describe "console.log inserts with identifier", ->
         insert = "console.log('#{selection.toUpperCase()}', #{selection})"
         consoleLog.add devLayer, insertType
         expect(editor.lineTextForScreenRow 0).toEqual "#{insert}"
+
+      it "should add insert inside chained conditional", ->
+        editor = atom.workspace.getActiveTextEditor()
+        editor.insertText testConditional
+        editor.setCursorScreenPosition [2,0]
+        editor.moveToEndOfWord()
+        editor.moveToEndOfWord()
+        editor.moveToEndOfWord()
+        editor.moveToEndOfWord()
+        editor.selectToEndOfWord()
+        selection = editor.getSelectedText()
+        insert = "console.log('#{selection.toUpperCase()}', #{selection})"
+        consoleLog.add devLayer, insertType
+        expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
 
       it """
         should have a semi colon at end of insert
@@ -260,38 +276,38 @@ describe "console.log inserts with identifier", ->
 
 
       describe "should add insert outside function if name is selected", ->
-      it "for es6 arrow function", ->
-        editor = atom.workspace.getActiveTextEditor()
-        editor.insertText testES6ArrowFunction
-        editor.setCursorScreenPosition [0,0]
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        insert = "console.log('#{selection}', #{selection})"
-        consoleLog.add devLayer, insertType
-        expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
+        it "for es6 arrow function", ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText testES6ArrowFunction
+          editor.setCursorScreenPosition [0,0]
+          editor.selectToEndOfWord()
+          selection = editor.getSelectedText()
+          insert = "console.log('#{selection}', #{selection})"
+          consoleLog.add devLayer, insertType
+          expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
 
-      it "for a js function", ->
-        editor = atom.workspace.getActiveTextEditor()
-        editor.insertText testJSFunction
-        editor.setCursorScreenPosition [0,0]
-        editor.moveToEndOfWord()
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        insert = "console.log('#{selection}', #{selection})"
-        consoleLog.add devLayer, insertType
-        expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
+        it "for a js function", ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText testJSFunction
+          editor.setCursorScreenPosition [0,0]
+          editor.moveToEndOfWord()
+          editor.selectToEndOfWord()
+          selection = editor.getSelectedText()
+          insert = "console.log('#{selection}', #{selection})"
+          consoleLog.add devLayer, insertType
+          expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
 
-      it "a function without keyword", ->
-        editor = atom.workspace.getActiveTextEditor()
-        editor.insertText testFunctionWithoutKeyword
-        editor.setCursorScreenPosition [0,0]
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        insert = "console.log('#{selection}', #{selection})"
-        consoleLog.add devLayer, insertType
-        expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
+        it "a function without keyword", ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText testFunctionWithoutKeyword
+          editor.setCursorScreenPosition [0,0]
+          editor.selectToEndOfWord()
+          selection = editor.getSelectedText()
+          insert = "console.log('#{selection}', #{selection})"
+          consoleLog.add devLayer, insertType
+          expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
 
-      it "should add insert above conditional", ->
+      it "should add insert above first conditional", ->
         editor = atom.workspace.getActiveTextEditor()
         editor.insertText testConditional
         editor.setCursorScreenPosition [0,0]
@@ -302,6 +318,20 @@ describe "console.log inserts with identifier", ->
         insert = "console.log('#{selection}', #{selection})"
         consoleLog.add devLayer, insertType
         expect(editor.lineTextForScreenRow 0).toEqual "#{insert}"
+
+      it "should add insert inside chained conditional", ->
+        editor = atom.workspace.getActiveTextEditor()
+        editor.insertText testConditional
+        editor.setCursorScreenPosition [2,0]
+        editor.moveToEndOfWord()
+        editor.moveToEndOfWord()
+        editor.moveToEndOfWord()
+        editor.moveToEndOfWord()
+        editor.selectToEndOfWord()
+        selection = editor.getSelectedText()
+        insert = "console.log('#{selection}', #{selection})"
+        consoleLog.add devLayer, insertType
+        expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
 
       it """
         should have a semi colon at end of insert
