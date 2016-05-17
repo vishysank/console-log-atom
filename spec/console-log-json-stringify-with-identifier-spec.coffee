@@ -353,10 +353,10 @@ describe "console.log JSON.stringify inserts with identifier", ->
         editor.selectToEndOfWord()
         selection = editor.getSelectedText()
         # coffeelint: disable=max_line_length
-        insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
+        insert = "console.log('#{selection}', JSON.stringify(#{selection}))"
         # coffeelint: enable=max_line_length
         consoleLog.add devLayer, insertType
-        expect(editor.lineTextForScreenRow 2).toEqual "#{insert}"
+        expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
 
       it """
         should have a semi colon at end of insert
