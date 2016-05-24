@@ -8,6 +8,7 @@ describe "console.log inserts", ->
 
   testString = "test"
   insert = "console.log()"
+  noSelectionTestInsert = "console.log('TEST')"
 
   describe "back end inserts", ->
     devLayer = "backEnd"
@@ -35,6 +36,15 @@ describe "console.log inserts", ->
       atom.config.set 'console-log.semiColons', true
       consoleLog.add devLayer, insertType
       expect(editor.getText()).toEqual "#{insert};"
+
+    it """
+      should have TEST string as insert
+      if noSelectionTestInsert config is selected
+    """, ->
+      editor = atom.workspace.getActiveTextEditor()
+      atom.config.set 'console-log.noSelectionInsert', true
+      consoleLog.add devLayer, insertType
+      expect(editor.getText()).toEqual noSelectionTestInsert
 
   describe "front end inserts", ->
     devLayer = "frontEnd"

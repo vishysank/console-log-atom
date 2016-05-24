@@ -31,7 +31,6 @@ module.exports =
     if editor = atom.workspace.getActiveTextEditor()
       configProp = methods.getConfig
       cursorOffset = insertProps[insertType].cursorOffset
-      emptyInsert = insertProps[insertType].emptyInsert
       selectedText = editor.getSelectedText()
       semiColonConfig = configProp 'console-log.semiColons'
       semiColonValue = ''
@@ -135,6 +134,11 @@ module.exports =
             editor.insertText "console.log('#{identifier}', #{selectedTextInsert})#{semiColonValue}"
             # coffeelint: enable=max_line_length
       else
+        noSelectionTextInsertConfig =
+          methods.getConfig 'console-log.noSelectionInsert'
+        emptyInsert =
+          insertProps[insertType].emptyInsert noSelectionTextInsertConfig
+
         editor.insertText "#{emptyInsert}#{semiColonValue}"
         editor.moveLeft cursorOffset
 

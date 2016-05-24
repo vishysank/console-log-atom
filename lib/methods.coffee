@@ -2,7 +2,7 @@
 
 module.exports =
   getConfig: (prop) ->
-    atom.config.get(prop)
+    atom.config.get prop
 
   setStyleValue: (styleType, val) ->
     if val == 'none'

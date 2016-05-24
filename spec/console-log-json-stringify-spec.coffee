@@ -2,6 +2,8 @@ consoleLog = require "../lib/console-log.coffee"
 
 describe "console.log with JSON.stringify inserts", ->
   insertType = 'stringify'
+  insert = "console.log(JSON.stringify())"
+  noSelectionTestInsert = "console.log(JSON.stringify('TEST'))"
   beforeEach ->
     waitsForPromise ->
       atom.workspace.open "test.js"
@@ -9,7 +11,6 @@ describe "console.log with JSON.stringify inserts", ->
   describe "back end inserts", ->
     devLayer = "backEnd"
     testString = "test"
-    insert = "console.log(JSON.stringify())"
 
     it "should add insert at cursor position", ->
       editor = atom.workspace.getActiveTextEditor()
@@ -37,3 +38,39 @@ describe "console.log with JSON.stringify inserts", ->
       editor.insertText testString
       consoleLog.add devLayer, insertType
       expect(editor.getText()).toEqual "#{testString}#{insert};"
+
+    it """
+      should have TEST string as insert
+      if noSelectionTestInsert config is selected
+    """, ->
+      editor = atom.workspace.getActiveTextEditor()
+      atom.config.set 'console-log.noSelectionInsert', true
+      consoleLog.add devLayer, insertType
+      expect(editor.getText()).toEqual "#{noSelectionTestInsert}"
+
+  describe "front end inserts", ->
+    devLayer = "frontEnd"
+    styleColor = "red"
+
+    it "should have no styling if configs are set to none", ->
+      editor = atom.workspace.getActiveTextEditor()
+      consoleLog.add devLayer, insertType
+      expect(editor.getText()).toEqual insert
+
+    it """
+      if no text is selected,
+      should have no background styling even if config is set
+    """, ->
+      editor = atom.workspace.getActiveTextEditor()
+      atom.config.set 'console-log.backgroundStyling', styleColor
+      consoleLog.add devLayer, insertType
+      expect(editor.getText()).toEqual insert
+
+    it """
+      if no text is selected,
+      should have no text styling even if config is set
+    """, ->
+      editor = atom.workspace.getActiveTextEditor()
+      atom.config.set 'console-log.textStyling', styleColor
+      consoleLog.add devLayer, insertType
+      expect(editor.getText()).toEqual insert
