@@ -45,11 +45,11 @@ module.exports =
         backgroundStylingConfig = configProp 'console-log.backgroundStyling'
         backgroundStyle = styleValues 'background', backgroundStylingConfig
         checkedRows = 0
-        conditionalCheckValues = ["if"]
-        chainedconditionalCheckValues = ["else if"]
+        conditionalCheckValues = ['if ', 'if (', 'if(' ]
+        chainedconditionalCheckValues = ['else if']
         conditionalFlag = false
         editorLineCount = editor.getLastScreenRow()
-        functionCheckValues = ['=>', "function", "){", ") {"]
+        functionCheckValues = ['=>', 'function', '){', ') {']
         identifierCaseConfig = configProp 'console-log.identifierCase'
         identifier =
           if identifierCaseConfig
