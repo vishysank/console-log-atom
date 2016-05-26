@@ -1,8 +1,10 @@
 module.exports =
   simple:
     cursorOffset: 1
-    emptyInsert: (noSelectionTextInsertConfig) ->
-      if noSelectionTextInsertConfig
+    emptyInsert: (noSelectionTextInsertConfig, styles) ->
+      if noSelectionTextInsertConfig && styles.length > 0
+      then "console.log('%cTEST', #{styles})"
+      else if noSelectionTextInsertConfig
       then "console.log('TEST')"
       else "console.log()"
     selectedTextInsert: (text) ->

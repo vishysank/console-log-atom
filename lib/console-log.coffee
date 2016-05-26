@@ -35,14 +35,19 @@ module.exports =
       semiColonConfig = configProp 'console-log.semiColons'
       semiColonValue = ''
       styleValues = methods.setStyleValue
+      backgroundStylingConfig = configProp 'console-log.backgroundStyling'
+      backgroundStyle = styleValues 'background', backgroundStylingConfig
+      textStylingConfig = configProp 'console-log.textStyling'
+      textStyle = styleValues 'color', textStylingConfig
+      styles =
+        if devLayer == 'frontEnd'
+        then "#{backgroundStyle}#{textStyle}" else ''
 
       if semiColonConfig
         semiColonValue = ';'
         cursorOffset++
 
       if selectedText.length > 0
-        backgroundStylingConfig = configProp 'console-log.backgroundStyling'
-        backgroundStyle = styleValues 'background', backgroundStylingConfig
         checkedRows = 0
         conditionalCheckValues = ['if ', 'if (', 'if(' ]
         chainedconditionalCheckValues = ['else if']
@@ -60,11 +65,6 @@ module.exports =
 
         selectedTextInsert =
           insertProps[insertType].selectedTextInsert selectedText
-        textStylingConfig = configProp 'console-log.textStyling'
-        textStyle = styleValues 'color', textStylingConfig
-        styles =
-          if devLayer == 'frontEnd'
-          then "#{backgroundStyle}#{textStyle}" else ''
 
         editor.selectToBeginningOfLine()
         lineTextBeforeSelectedText = editor.getSelectedText().split ''
@@ -137,7 +137,9 @@ module.exports =
         noSelectionTextInsertConfig =
           methods.getConfig 'console-log.noSelectionInsert'
         emptyInsert =
-          insertProps[insertType].emptyInsert noSelectionTextInsertConfig
+          # coffeelint: disable=max_line_length
+          insertProps[insertType].emptyInsert noSelectionTextInsertConfig, styles
+          # coffeelint: enable=max_line_length
 
         editor.insertText "#{emptyInsert}#{semiColonValue}"
         editor.moveLeft cursorOffset

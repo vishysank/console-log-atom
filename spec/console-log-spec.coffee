@@ -8,10 +8,10 @@ describe "console.log inserts", ->
 
   testString = "test"
   insert = "console.log()"
-  noSelectionTestInsert = "console.log('TEST')"
 
   describe "back end inserts", ->
     devLayer = "backEnd"
+    noSelectionTestInsert = "console.log('TEST')"
 
     it "should add insert at cursor position", ->
       editor = atom.workspace.getActiveTextEditor()
@@ -37,38 +37,41 @@ describe "console.log inserts", ->
       consoleLog.add devLayer, insertType
       expect(editor.getText()).toEqual "#{insert};"
 
-    it """
-      should have TEST string as insert
-      if noSelectionTestInsert config is selected
-    """, ->
-      editor = atom.workspace.getActiveTextEditor()
-      atom.config.set 'console-log.noSelectionInsert', true
-      consoleLog.add devLayer, insertType
-      expect(editor.getText()).toEqual noSelectionTestInsert
+    describe "when noSelectionTestInsert config is selected", ->
+      it "should have TEST string as insert", ->
+        editor = atom.workspace.getActiveTextEditor()
+        atom.config.set 'console-log.noSelectionInsert', true
+        consoleLog.add devLayer, insertType
+        expect(editor.getText()).toEqual noSelectionTestInsert
 
   describe "front end inserts", ->
     devLayer = "frontEnd"
     styleColor = "red"
+    noSelectionTestInsert =
+      "console.log('%cTEST', background:#{styleColor};color:#{styleColor};)"
 
     it "should have no styling if configs are set to none", ->
       editor = atom.workspace.getActiveTextEditor()
       consoleLog.add devLayer, insertType
       expect(editor.getText()).toEqual insert
 
-    it """
-      if no text is selected,
-      should have no background styling even if config is set
-    """, ->
+    it "should have no background styling even if config is set", ->
       editor = atom.workspace.getActiveTextEditor()
       atom.config.set 'console-log.backgroundStyling', styleColor
       consoleLog.add devLayer, insertType
       expect(editor.getText()).toEqual insert
 
-    it """
-      if no text is selected,
-      should have no text styling even if config is set
-    """, ->
+    it "should have no text styling even if config is set", ->
       editor = atom.workspace.getActiveTextEditor()
       atom.config.set 'console-log.textStyling', styleColor
       consoleLog.add devLayer, insertType
       expect(editor.getText()).toEqual insert
+
+    describe "when noSelectionTestInsert config is selected", ->
+      it "should have TEST string as insert and and config values set", ->
+        editor = atom.workspace.getActiveTextEditor()
+        atom.config.set 'console-log.noSelectionInsert', true
+        atom.config.set 'console-log.backgroundStyling', styleColor
+        atom.config.set 'console-log.textStyling', styleColor
+        consoleLog.add devLayer, insertType
+        expect(editor.getText()).toEqual noSelectionTestInsert
