@@ -41,3 +41,6 @@
 
 ## 1.3.0 - Smart conditional logging, with improved behaviour for chained Conditionals
 * if a variable used in a definition of an if statement is used, so that the logging is not lost if the condition doesn't pass, the insert is placed on the line above the if statement. For subsequent conditionals, the insert is placed within the conditional
+
+## 1.4.0 - Config Option added to include String TEST for identification if no text selected
+* Rather than include a dumb ```console.log()``` insert, if you can select to have ```console.log('TEST')``` inserted, which will show up as the code run past it.

@@ -5,6 +5,7 @@
 # console-log package
 
 console-log is a simple  and smart helper function that makes logging and debugging easy.
+**New Config options added**
 
 ## Features (click for demo)
 ### Basic Logging
@@ -38,6 +39,7 @@ You can install this package from the CLI or from the Editor.
 * **Define Identifier case :** Choose whether to retain case of selected text when creating identifier. **Defaults to creating an identifier in capital case of selected text**
 * **Include background style for identifier:** For logging in the chrome dev tools console, you can choose to enable background styling for the identifier **defaults to none**
 * **Include text style for identifier:** For logging in the chrome dev tools console, you can choose to enable text styling for the identifier **defaults to none**
+* **Include String TEST for identification if no text selected:** Rather than include a dumb ```console.log()``` insert, if you can select to have ```console.log('TEST')``` inserted, which will show up as the code run past it.
 
 ## Languages Supported
 * Javascript
