@@ -44,3 +44,5 @@
 
 ## 1.4.0 - Config Option added to include String TEST for identification if no text selected
 * Rather than include a dumb ```console.log()``` insert, if you can select to have ```console.log('TEST')``` inserted, which will show up as the code run past it.
+
+## 1.5.0 - First conditional inserts now includes a 'CONDITION passed' insert within conditional
