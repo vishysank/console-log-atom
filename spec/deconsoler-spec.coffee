@@ -1,6 +1,6 @@
 consoleLog = require "../lib/console-log.coffee"
 
-describe "Deconsoler", ->
+describe "Deconsoler :", ->
   beforeEach ->
     waitsForPromise ->
       atom.workspace.open "test.js"

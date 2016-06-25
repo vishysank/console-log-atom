@@ -1,6 +1,6 @@
 consoleLog = require "../lib/console-log.coffee"
 
-describe "console.log JSON.stringify inserts with identifier", ->
+describe "JSON.stringify Inserts with Identifier :", ->
   insertType = 'stringify'
   testString = "test case"
   testObject = """
@@ -36,59 +36,147 @@ describe "console.log JSON.stringify inserts with identifier", ->
     waitsForPromise ->
       atom.workspace.open "test.js"
 
-  describe "back end inserts", ->
+  describe "Back End Inserts :", ->
     devLayer = "backEnd"
 
-    describe "for Uppercase identifier Case Config", ->
-      it "should add contain identifier identical to selected text", ->
-        editor = atom.workspace.getActiveTextEditor()
-        editor.insertText testString
-        editor.moveToBeginningOfLine()
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        # coffeelint: disable=max_line_length
-        insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
-        # coffeelint: enable=max_line_length
-        consoleLog.add devLayer, insertType
-        expect(editor.getText()).toContain "#{insert}"
+    describe "For Uppercase identifier Case Config :", ->
+      describe "Simple Variables :", ->
+        it "should add contain identifier identical to selected text", ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText testString
+          editor.moveToBeginningOfLine()
+          editor.selectToEndOfWord()
+          selection = editor.getSelectedText()
+          # coffeelint: disable=max_line_length
+          insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
+          # coffeelint: enable=max_line_length
+          consoleLog.add devLayer, insertType
+          expect(editor.getText()).toContain "#{insert}"
 
-      it """
-        should add insert with identifier on next line,
-        if not an object or function
-      """, ->
-        editor = atom.workspace.getActiveTextEditor()
-        editor.insertText testString
-        editor.moveToBeginningOfLine()
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        # coffeelint: disable=max_line_length
-        insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
-        # coffeelint: enable=max_line_length
-        consoleLog.add devLayer, insertType
-        expect(editor.getText()).toEqual """
-        #{testString}
-        #{insert}
-        """
-
-      it "should add insert with identifier after an object", ->
-        editor = atom.workspace.getActiveTextEditor()
-        editor.insertText testObject
-        editor.setCursorScreenPosition [0,0]
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        # coffeelint: disable=max_line_length
-        insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
-        # coffeelint: enable=max_line_length
-        consoleLog.add devLayer, insertType
-        expect(editor.getText()).toEqual """
-          #{testObject}
+        it """
+          should add insert with identifier on next line,
+          if not an object or function
+        """, ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText testString
+          editor.moveToBeginningOfLine()
+          editor.selectToEndOfWord()
+          selection = editor.getSelectedText()
+          # coffeelint: disable=max_line_length
+          insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
+          # coffeelint: enable=max_line_length
+          consoleLog.add devLayer, insertType
+          expect(editor.getText()).toEqual """
+          #{testString}
           #{insert}
-        """
+          """
 
-      describe "should add insert within function if param is selected", ->
-        it "for es6 arrow function", ->
+      describe "Objects :", ->
+        it "should add insert with identifier after an object", ->
           editor = atom.workspace.getActiveTextEditor()
-          editor.insertText testES6ArrowFunction
+          editor.insertText testObject
+          editor.setCursorScreenPosition [0,0]
+          editor.selectToEndOfWord()
+          selection = editor.getSelectedText()
+          # coffeelint: disable=max_line_length
+          insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
+          # coffeelint: enable=max_line_length
+          consoleLog.add devLayer, insertType
+          expect(editor.getText()).toEqual """
+            #{testObject}
+            #{insert}
+          """
+
+      describe "Functions :", ->
+        describe "should add insert within function if param is selected", ->
+          it "for es6 arrow function", ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testES6ArrowFunction
+            editor.setCursorScreenPosition [0,0]
+            editor.moveToEndOfWord()
+            editor.moveToEndOfWord()
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            # coffeelint: disable=max_line_length
+            insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
+            # coffeelint: enable=max_line_length
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 1).toEqual "#{insert}"
+
+          it "for a js function", ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testJSFunction
+            editor.setCursorScreenPosition [0,0]
+            editor.moveToEndOfWord()
+            editor.moveToEndOfWord()
+            editor.moveToEndOfWord()
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            # coffeelint: disable=max_line_length
+            insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
+            # coffeelint: enable=max_line_length
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 1).toEqual "#{insert}"
+
+          it "for a function without keyword", ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testFunctionWithoutKeyword
+            editor.setCursorScreenPosition [0,0]
+            editor.moveToEndOfWord()
+            editor.moveToEndOfWord()
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            # coffeelint: disable=max_line_length
+            insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
+            # coffeelint: enable=max_line_length
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 1).toEqual "#{insert}"
+
+        describe "should add insert outside function if name is selected", ->
+          it "for es6 arrow function", ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testES6ArrowFunction
+            editor.setCursorScreenPosition [0,0]
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            # coffeelint: disable=max_line_length
+            insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
+            # coffeelint: enable=max_line_length
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
+
+          it "for a js function", ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testJSFunction
+            editor.setCursorScreenPosition [0,0]
+            editor.moveToEndOfWord()
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            # coffeelint: disable=max_line_length
+            insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
+            # coffeelint: enable=max_line_length
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
+
+          it "for a function without keyword", ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testFunctionWithoutKeyword
+            editor.setCursorScreenPosition [0,0]
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            # coffeelint: disable=max_line_length
+            insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
+            # coffeelint: enable=max_line_length
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
+
+      describe "Conditionals :", ->
+        it """
+          should add insert above first conditional,
+          and 'CONDITION PASSED' insert below first conditional
+        """, ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText testConditional
           editor.setCursorScreenPosition [0,0]
           editor.moveToEndOfWord()
           editor.moveToEndOfWord()
@@ -96,44 +184,20 @@ describe "console.log JSON.stringify inserts with identifier", ->
           selection = editor.getSelectedText()
           # coffeelint: disable=max_line_length
           insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
+          textInsert = "console.log('CONDITION PASSED')"
           # coffeelint: enable=max_line_length
           consoleLog.add devLayer, insertType
-          expect(editor.lineTextForScreenRow 1).toEqual "#{insert}"
+          expect(editor.lineTextForScreenRow 0).toEqual "#{insert}"
+          expect(editor.lineTextForScreenRow 2).toEqual "#{textInsert}"
 
-        it "for a js function", ->
+        it "should add insert inside chained conditional", ->
           editor = atom.workspace.getActiveTextEditor()
-          editor.insertText testJSFunction
-          editor.setCursorScreenPosition [0,0]
+          editor.insertText testConditional
+          editor.setCursorScreenPosition [2,0]
           editor.moveToEndOfWord()
           editor.moveToEndOfWord()
           editor.moveToEndOfWord()
-          editor.selectToEndOfWord()
-          selection = editor.getSelectedText()
-          # coffeelint: disable=max_line_length
-          insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
-          # coffeelint: enable=max_line_length
-          consoleLog.add devLayer, insertType
-          expect(editor.lineTextForScreenRow 1).toEqual "#{insert}"
-
-        it "for a function without keyword", ->
-          editor = atom.workspace.getActiveTextEditor()
-          editor.insertText testFunctionWithoutKeyword
-          editor.setCursorScreenPosition [0,0]
           editor.moveToEndOfWord()
-          editor.moveToEndOfWord()
-          editor.selectToEndOfWord()
-          selection = editor.getSelectedText()
-          # coffeelint: disable=max_line_length
-          insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
-          # coffeelint: enable=max_line_length
-          consoleLog.add devLayer, insertType
-          expect(editor.lineTextForScreenRow 1).toEqual "#{insert}"
-
-      describe "should add insert outside function if name is selected", ->
-        it "for es6 arrow function", ->
-          editor = atom.workspace.getActiveTextEditor()
-          editor.insertText testES6ArrowFunction
-          editor.setCursorScreenPosition [0,0]
           editor.selectToEndOfWord()
           selection = editor.getSelectedText()
           # coffeelint: disable=max_line_length
@@ -142,240 +206,197 @@ describe "console.log JSON.stringify inserts with identifier", ->
           consoleLog.add devLayer, insertType
           expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
 
-        it "for a js function", ->
+      describe "Syntax and Styling", ->
+        it """
+          should have a semi colon at end of insert
+          if semi colon config is chosen
+        """, ->
           editor = atom.workspace.getActiveTextEditor()
-          editor.insertText testJSFunction
-          editor.setCursorScreenPosition [0,0]
-          editor.moveToEndOfWord()
+          atom.config.set 'console-log.semiColons', true
+          editor.insertText testString
+          editor.moveToBeginningOfLine()
           editor.selectToEndOfWord()
           selection = editor.getSelectedText()
           # coffeelint: disable=max_line_length
-          insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
+          insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}));"
           # coffeelint: enable=max_line_length
           consoleLog.add devLayer, insertType
-          expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
+          expect(editor.getText()).toEqual """
+          #{testString}
+          #{insert}
+          """
 
-        it "for a function without keyword", ->
-          editor = atom.workspace.getActiveTextEditor()
-          editor.insertText testFunctionWithoutKeyword
-          editor.setCursorScreenPosition [0,0]
-          editor.selectToEndOfWord()
-          selection = editor.getSelectedText()
-          # coffeelint: disable=max_line_length
-          insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
-          # coffeelint: enable=max_line_length
-          consoleLog.add devLayer, insertType
-          expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
-
-      it "should add insert above first conditional", ->
-        editor = atom.workspace.getActiveTextEditor()
-        editor.insertText testConditional
-        editor.setCursorScreenPosition [0,0]
-        editor.moveToEndOfWord()
-        editor.moveToEndOfWord()
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        # coffeelint: disable=max_line_length
-        insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
-        # coffeelint: enable=max_line_length
-        consoleLog.add devLayer, insertType
-        expect(editor.lineTextForScreenRow 0).toEqual "#{insert}"
-
-      it "should add insert inside chained conditional", ->
-        editor = atom.workspace.getActiveTextEditor()
-        editor.insertText testConditional
-        editor.setCursorScreenPosition [2,0]
-        editor.moveToEndOfWord()
-        editor.moveToEndOfWord()
-        editor.moveToEndOfWord()
-        editor.moveToEndOfWord()
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        # coffeelint: disable=max_line_length
-        insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
-        # coffeelint: enable=max_line_length
-        consoleLog.add devLayer, insertType
-        expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
-
-      it """
-        should have a semi colon at end of insert
-        if semi colon config is chosen
-      """, ->
-        editor = atom.workspace.getActiveTextEditor()
-        atom.config.set 'console-log.semiColons', true
-        editor.insertText testString
-        editor.moveToBeginningOfLine()
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        # coffeelint: disable=max_line_length
-        insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}));"
-        # coffeelint: enable=max_line_length
-        consoleLog.add devLayer, insertType
-        expect(editor.getText()).toEqual """
-        #{testString}
-        #{insert}
-        """
-
-    describe "for lowercase identifier Case Config", ->
+    describe "Lowercase Identifier Case Config :", ->
       beforeEach ->
         atom.config.set('console-log.identifierCase', true)
 
-      it "should add contain identifier identical to selected text", ->
-        editor = atom.workspace.getActiveTextEditor()
-        editor.insertText testString
-        editor.moveToBeginningOfLine()
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        insert = "console.log('#{selection}', JSON.stringify(#{selection}))"
-        consoleLog.add devLayer, insertType
-        expect(editor.getText()).toContain "#{insert}"
+      describe "Simple Variables :", ->
+        it "should add contain identifier identical to selected text", ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText testString
+          editor.moveToBeginningOfLine()
+          editor.selectToEndOfWord()
+          selection = editor.getSelectedText()
+          insert = "console.log('#{selection}', JSON.stringify(#{selection}))"
+          consoleLog.add devLayer, insertType
+          expect(editor.getText()).toContain "#{insert}"
 
-      it """
-        should add insert with identifier on next line,
-        if not an object or function
-      """, ->
-        editor = atom.workspace.getActiveTextEditor()
-        editor.insertText testString
-        editor.moveToBeginningOfLine()
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        insert = "console.log('#{selection}', JSON.stringify(#{selection}))"
-        consoleLog.add devLayer, insertType
-        expect(editor.getText()).toEqual """
-        #{testString}
-        #{insert}
-        """
-
-      it "should add insert with identifier after an object", ->
-        editor = atom.workspace.getActiveTextEditor()
-        editor.insertText testObject
-        editor.setCursorScreenPosition [0,0]
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        insert = "console.log('#{selection}', JSON.stringify(#{selection}))"
-        consoleLog.add devLayer, insertType
-        expect(editor.getText()).toEqual """
-          #{testObject}
+        it """
+          should add insert with identifier on next line,
+          if not an object or function
+        """, ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText testString
+          editor.moveToBeginningOfLine()
+          editor.selectToEndOfWord()
+          selection = editor.getSelectedText()
+          insert = "console.log('#{selection}', JSON.stringify(#{selection}))"
+          consoleLog.add devLayer, insertType
+          expect(editor.getText()).toEqual """
+          #{testString}
           #{insert}
-        """
-      describe "should add insert within function if param is selected", ->
-        it "for es6 arrow function", ->
+          """
+
+      describe "Objects :", ->
+        it "should add insert with identifier after an object", ->
           editor = atom.workspace.getActiveTextEditor()
-          editor.insertText testES6ArrowFunction
+          editor.insertText testObject
           editor.setCursorScreenPosition [0,0]
-          editor.moveToEndOfWord()
-          editor.moveToEndOfWord()
           editor.selectToEndOfWord()
           selection = editor.getSelectedText()
           insert = "console.log('#{selection}', JSON.stringify(#{selection}))"
           consoleLog.add devLayer, insertType
-          expect(editor.lineTextForScreenRow 1).toEqual "#{insert}"
+          expect(editor.getText()).toEqual """
+            #{testObject}
+            #{insert}
+          """
 
-        it "for a js function", ->
+      describe "Functions :", ->
+        describe "should add insert within function if param is selected", ->
+          it "for es6 arrow function", ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testES6ArrowFunction
+            editor.setCursorScreenPosition [0,0]
+            editor.moveToEndOfWord()
+            editor.moveToEndOfWord()
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            insert = "console.log('#{selection}', JSON.stringify(#{selection}))"
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 1).toEqual "#{insert}"
+
+          it "for a js function", ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testJSFunction
+            editor.setCursorScreenPosition [0,0]
+            editor.moveToEndOfWord()
+            editor.moveToEndOfWord()
+            editor.moveToEndOfWord()
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            insert = "console.log('#{selection}', JSON.stringify(#{selection}))"
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 1).toEqual "#{insert}"
+
+          it "for a function without keyword", ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testFunctionWithoutKeyword
+            editor.setCursorScreenPosition [0,0]
+            editor.moveToEndOfWord()
+            editor.moveToEndOfWord()
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            insert = "console.log('#{selection}', JSON.stringify(#{selection}))"
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 1).toEqual "#{insert}"
+
+        describe "should add insert outside function if name is selected", ->
+          it "for es6 arrow function", ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testES6ArrowFunction
+            editor.setCursorScreenPosition [0,0]
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            insert = "console.log('#{selection}', JSON.stringify(#{selection}))"
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
+
+          it "for a js function", ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testJSFunction
+            editor.setCursorScreenPosition [0,0]
+            editor.moveToEndOfWord()
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            insert = "console.log('#{selection}', JSON.stringify(#{selection}))"
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
+
+          it "for a function without keyword", ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testFunctionWithoutKeyword
+            editor.setCursorScreenPosition [0,0]
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            insert = "console.log('#{selection}', JSON.stringify(#{selection}))"
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
+
+      describe "Conditionals :", ->
+        it """
+          should add insert above first conditional,
+          and 'CONDITION PASSED' insert below first conditional
+        """, ->
           editor = atom.workspace.getActiveTextEditor()
-          editor.insertText testJSFunction
+          editor.insertText testConditional
           editor.setCursorScreenPosition [0,0]
-          editor.moveToEndOfWord()
           editor.moveToEndOfWord()
           editor.moveToEndOfWord()
           editor.selectToEndOfWord()
           selection = editor.getSelectedText()
+          # coffeelint: disable=max_line_length
           insert = "console.log('#{selection}', JSON.stringify(#{selection}))"
+          textInsert = "console.log('CONDITION PASSED')"
+          # coffeelint: enable=max_line_length
           consoleLog.add devLayer, insertType
-          expect(editor.lineTextForScreenRow 1).toEqual "#{insert}"
+          expect(editor.lineTextForScreenRow 0).toEqual "#{insert}"
+          expect(editor.lineTextForScreenRow 2).toEqual "#{textInsert}"
 
-        it "for a function without keyword", ->
+        it "should add insert inside chained conditional", ->
           editor = atom.workspace.getActiveTextEditor()
-          editor.insertText testFunctionWithoutKeyword
-          editor.setCursorScreenPosition [0,0]
+          editor.insertText testConditional
+          editor.setCursorScreenPosition [2,0]
+          editor.moveToEndOfWord()
+          editor.moveToEndOfWord()
           editor.moveToEndOfWord()
           editor.moveToEndOfWord()
           editor.selectToEndOfWord()
           selection = editor.getSelectedText()
+          # coffeelint: disable=max_line_length
           insert = "console.log('#{selection}', JSON.stringify(#{selection}))"
-          consoleLog.add devLayer, insertType
-          expect(editor.lineTextForScreenRow 1).toEqual "#{insert}"
-
-      describe "should add insert outside function if name is selected", ->
-        it "for es6 arrow function", ->
-          editor = atom.workspace.getActiveTextEditor()
-          editor.insertText testES6ArrowFunction
-          editor.setCursorScreenPosition [0,0]
-          editor.selectToEndOfWord()
-          selection = editor.getSelectedText()
-          insert = "console.log('#{selection}', JSON.stringify(#{selection}))"
+          # coffeelint: enable=max_line_length
           consoleLog.add devLayer, insertType
           expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
 
-        it "for a js function", ->
+      describe "Syntax and Styling :", ->
+        it """
+          should have a semi colon at end of insert
+          if semi colon config is chosen
+        """, ->
           editor = atom.workspace.getActiveTextEditor()
-          editor.insertText testJSFunction
-          editor.setCursorScreenPosition [0,0]
-          editor.moveToEndOfWord()
+          atom.config.set 'console-log.semiColons', true
+          editor.insertText testString
+          editor.moveToBeginningOfLine()
           editor.selectToEndOfWord()
           selection = editor.getSelectedText()
-          insert = "console.log('#{selection}', JSON.stringify(#{selection}))"
+          insert = "console.log('#{selection}', JSON.stringify(#{selection}));"
           consoleLog.add devLayer, insertType
-          expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
+          expect(editor.getText()).toEqual """
+          #{testString}
+          #{insert}
+          """
 
-        it "for a function without keyword", ->
-          editor = atom.workspace.getActiveTextEditor()
-          editor.insertText testFunctionWithoutKeyword
-          editor.setCursorScreenPosition [0,0]
-          editor.selectToEndOfWord()
-          selection = editor.getSelectedText()
-          insert = "console.log('#{selection}', JSON.stringify(#{selection}))"
-          consoleLog.add devLayer, insertType
-          expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
-
-      it "should add insert above first conditional", ->
-        editor = atom.workspace.getActiveTextEditor()
-        editor.insertText testConditional
-        editor.setCursorScreenPosition [0,0]
-        editor.moveToEndOfWord()
-        editor.moveToEndOfWord()
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        # coffeelint: disable=max_line_length
-        insert = "console.log('#{selection}', JSON.stringify(#{selection}))"
-        # coffeelint: enable=max_line_length
-        consoleLog.add devLayer, insertType
-        expect(editor.lineTextForScreenRow 0).toEqual "#{insert}"
-
-      it "should add insert inside chained conditional", ->
-        editor = atom.workspace.getActiveTextEditor()
-        editor.insertText testConditional
-        editor.setCursorScreenPosition [2,0]
-        editor.moveToEndOfWord()
-        editor.moveToEndOfWord()
-        editor.moveToEndOfWord()
-        editor.moveToEndOfWord()
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        # coffeelint: disable=max_line_length
-        insert = "console.log('#{selection}', JSON.stringify(#{selection}))"
-        # coffeelint: enable=max_line_length
-        consoleLog.add devLayer, insertType
-        expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
-
-      it """
-        should have a semi colon at end of insert
-        if semi colon config is chosen
-      """, ->
-        editor = atom.workspace.getActiveTextEditor()
-        atom.config.set 'console-log.semiColons', true
-        editor.insertText testString
-        editor.moveToBeginningOfLine()
-        editor.selectToEndOfWord()
-        selection = editor.getSelectedText()
-        insert = "console.log('#{selection}', JSON.stringify(#{selection}));"
-        consoleLog.add devLayer, insertType
-        expect(editor.getText()).toEqual """
-        #{testString}
-        #{insert}
-        """
-
-  describe "front end inserts", ->
+  describe "Front End Inserts :", ->
     devLayer = "frontEnd"
     backgroundColor = "red"
     textColor = "blue"

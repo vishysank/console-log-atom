@@ -1,6 +1,6 @@
 consoleLog = require "../lib/console-log.coffee"
 
-describe "console.log inserts", ->
+describe "No Selection Inserts :", ->
   insertType = 'simple'
   beforeEach ->
     waitsForPromise ->
@@ -9,7 +9,7 @@ describe "console.log inserts", ->
   testString = "test"
   insert = "console.log()"
 
-  describe "back end inserts", ->
+  describe "Back End Inserts :", ->
     devLayer = "backEnd"
     noSelectionTestInsert = "console.log('TEST')"
 
@@ -44,7 +44,7 @@ describe "console.log inserts", ->
         consoleLog.add devLayer, insertType
         expect(editor.getText()).toEqual noSelectionTestInsert
 
-  describe "front end inserts", ->
+  describe "Front End Inserts :", ->
     devLayer = "frontEnd"
     styleColor = "red"
     noSelectionTestInsert =

@@ -122,6 +122,16 @@ module.exports =
           editor.moveToBeginningOfLine()
           editor.selectToEndOfLine()
           editor.autoIndentSelectedRows()
+          editor.moveDown 1
+          editor.moveToEndOfLine
+          editor.insertNewline()
+          if styles.length > 0
+            # coffeelint: disable=max_line_length
+            editor.insertText "console.log('%cCONDITION PASSED', '#{styles}')#{semiColonValue}"
+            # coffeelint: enable=max_line_length
+          else
+            # coffeelint: disable=max_line_length
+            editor.insertText "console.log('CONDITION PASSED')#{semiColonValue}"
         else
           editor.moveToEndOfLine()
           editor.insertNewline()

@@ -1,6 +1,6 @@
 consoleLog = require "../lib/console-log.coffee"
 
-describe "console.log with JSON.stringify inserts", ->
+describe "No Selection JSON.stringify Inserts :", ->
   insertType = 'stringify'
   insert = "console.log(JSON.stringify())"
   noSelectionTestInsert = "console.log(JSON.stringify('TEST'))"
@@ -8,7 +8,7 @@ describe "console.log with JSON.stringify inserts", ->
     waitsForPromise ->
       atom.workspace.open "test.js"
 
-  describe "back end inserts", ->
+  describe "Back End Inserts :", ->
     devLayer = "backEnd"
     testString = "test"
 
@@ -48,7 +48,7 @@ describe "console.log with JSON.stringify inserts", ->
       consoleLog.add devLayer, insertType
       expect(editor.getText()).toEqual "#{noSelectionTestInsert}"
 
-  describe "front end inserts", ->
+  describe "Front End Inserts :", ->
     devLayer = "frontEnd"
     styleColor = "red"
 

@@ -19,7 +19,7 @@ console-log is a simple  and smart helper function that makes logging and debugg
 * [If function name is selected, places console.log after function has been created. If param is selected, places the console.log statement within the param](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/console-log-function-demo.gif)
 
 ### Smart Conditionals Logging (early release)
-* [if a variable used in a definition of the conditional in an if statement is logged, the insert is placed on the line above the if statement, so that the logging is not lost if the condition doesn't pass. For subsequent chained conditionals, insert is placed within the conditional.](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/console-log-conditional-demo.gif)
+* [if a variable used in a definition of the conditional in an if statement is logged, the insert is placed on the line above the if statement and a 'CONDITION PASSED' insert in the if statement, so that the logging is not lost if the condition doesn't pass, and there is clear validation if the condition passed. For subsequent chained conditionals, insert is placed within the conditional.](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/console-log-conditional-demo.gif)
 
 ### Logging Cleanup
 * ```ctrl-shift-D``` - [clean out all the lines that contain console.log statements in the file.](https://raw.githubusercontent.com/vishysank/console-log-atom/master/assets/deconsoler-demo.gif)
