@@ -159,38 +159,29 @@ module.exports =
       editor.setCursorScreenPosition [0,0]
       editorLineCount = editor.getLastScreenRow()
       checkedRow = 0
-      rowsToBeDeconsoled = []
       messageRowSet = []
       filePath = editor.getPath()
 
       while checkedRow <= editorLineCount
         editor.selectToEndOfLine()
-        functionCheckSelection = editor.getSelectedText()
+        checkedRowText = editor.getSelectedText()
 
-        if functionCheckSelection.indexOf('console.log') > -1
+        if checkedRowText.indexOf('console.log') > -1
           selectedTextScreenRow = editor.getSelectedScreenRange().getRows()
-          rowsToBeDeconsoled.push selectedTextScreenRow
-
-        checkedRow++
-        editor.moveToBeginningOfLine()
-        editor.moveDown 1
+          messageRowSet.push checkedRow + 1
+          editor.deleteLine()
+          checkedRow++
+        else
+          checkedRow++
+          editor.moveToBeginningOfLine()
+          editor.moveDown 1
 
       editor.setCursorScreenPosition [(editorLineCount+1), 0]
-
-      for row in rowsToBeDeconsoled
-        editor.addCursorAtScreenPosition [row,0]
-        editor.selectToEndOfLine()
-        messageRowSet.push (row * 1) + 1
-
-      if rowsToBeDeconsoled.length > 0
-        editor.deleteLine()
-        editor.setCursorScreenPosition [0,0]
-
       atom.notifications.addSuccess "#{filePath} has been deconsoled",
         detail: """
-          #{rowsToBeDeconsoled.length} rows with console.log have been removed
+          #{messageRowSet.length} rows with console.log have been removed
           Line locations: #{messageRowSet}
           If you want to revert after closing this message,
-          hit "undo" twice
+          hit "undo" * the number of lines that have been removed
         """,
         dismissable: true
