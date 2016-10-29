@@ -68,7 +68,7 @@ module.exports =
 
         editor.selectToBeginningOfLine()
         lineTextBeforeSelectedText = editor.getSelectedText().split ''
-        editor.moveToBeginningOfLine()
+        editor.moveToFirstCharacterOfLine()
         editor.selectToEndOfLine()
         functionCheckSelection = editor.getSelectedText()
         objectCheckSelection = functionCheckSelection.split ''
@@ -121,7 +121,7 @@ module.exports =
           editor.selectToEndOfLine()
           editor.autoIndentSelectedRows()
           editor.moveDown 1
-          editor.moveToEndOfLine
+          editor.moveToEndOfLine()
           editor.insertNewline()
           if styles.length > 0
             # coffeelint: disable=max_line_length

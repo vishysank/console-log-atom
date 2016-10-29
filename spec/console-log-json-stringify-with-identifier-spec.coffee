@@ -25,25 +25,26 @@ describe "JSON.stringify Inserts with Identifier :", ->
       return 'some value'
     }
   """
+  # the following strings are deliberately indented to account for whitespaces
   testConditionalWithSpaceAndParens = """
-    if (test === test1) {
-      return 'test2'
-    } else if (test === test3) {
-      return 'test4'
-    }
+      if (test === test1 && test11 === test22 && test33 === test44) {
+        return 'test2'
+      } else if (test === test3 && test11 === test22 && test33 === test44) {
+        return 'test4'
+      }
   """
   testConditionalWithoutSpaceAndWithParens = """
-    if(test === test1) {
-      return 'test2'
-    } else if(test === test3) {
-      return 'test4'
-    }
+      if(test === test1 && test11 === test22 && test33 === test44) {
+        return 'test2'
+      } else if(test === test3 && test11 === test22 && test33 === test44) {
+        return 'test4'
+      }
   """
   testConditionalWithoutParens = """
-    if test === test1
-      return 'test2'
-    else if test === test3
-      return 'test4'
+      if test === test1 && test11 === test22 && test33 === test44
+        return 'test2'
+      else if test === test3 && test11 === test22 && test33 === test44
+        return 'test4'
   """
   varContainingIf = "const sif = noiShared.get('sif');"
 
