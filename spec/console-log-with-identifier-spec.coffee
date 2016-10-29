@@ -29,12 +29,25 @@ describe "Inserts with Identifier :", ->
       return 'some value'
     }
   """
-  testConditional = """
+  testConditionalWithSpaceAndParens = """
     if (test === test1) {
       return 'test2'
     } else if (test === test3) {
       return 'test4'
     }
+  """
+  testConditionalWithoutSpaceAndWithParens = """
+    if(test === test1) {
+      return 'test2'
+    } else if(test === test3) {
+      return 'test4'
+    }
+  """
+  testConditionalWithoutParens = """
+    if test === test1
+      return 'test2'
+    else if test === test3
+      return 'test4'
   """
   varContainingIf = "const sif = noiShared.get('sif');"
 
@@ -155,53 +168,110 @@ describe "Inserts with Identifier :", ->
             expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
 
       describe "Conditionals :", ->
-        it """
-          should add insert above first conditional,
-          and 'CONDITION PASSED' insert below first conditional
-        """, ->
-          editor = atom.workspace.getActiveTextEditor()
-          editor.insertText testConditional
-          editor.setCursorScreenPosition [0,0]
-          editor.moveToEndOfWord()
-          editor.moveToEndOfWord()
-          editor.selectToEndOfWord()
-          selection = editor.getSelectedText()
-          insert = "console.log('#{selection.toUpperCase()}', #{selection})"
-          textInsert = "console.log('CONDITION PASSED')"
-          consoleLog.add devLayer, insertType
-          expect(editor.lineTextForScreenRow 0).toEqual "#{insert}"
-          expect(editor.lineTextForScreenRow 2).toEqual "#{textInsert}"
-
-        it "should add insert inside chained conditional", ->
-          editor = atom.workspace.getActiveTextEditor()
-          editor.insertText testConditional
-          editor.setCursorScreenPosition [2,0]
-          editor.moveToEndOfWord()
-          editor.moveToEndOfWord()
-          editor.moveToEndOfWord()
-          editor.moveToEndOfWord()
-          editor.selectToEndOfWord()
-          selection = editor.getSelectedText()
-          insert = "console.log('#{selection.toUpperCase()}', #{selection})"
-          consoleLog.add devLayer, insertType
-          expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
-
-        it """
-          should NOT add conditionalinsert for variables that contain if
-          should insert regular console log expression instead
+        describe "With Spaces and Parens :", ->
+          it """
+            should add insert above first conditional,
+            and 'CONDITION PASSED' insert below first conditional
           """, ->
-          editor = atom.workspace.getActiveTextEditor()
-          editor.insertText varContainingIf
-          editor.setCursorScreenPosition [0,0]
-          editor.moveToEndOfWord()
-          editor.selectToEndOfWord()
-          selection = editor.getSelectedText()
-          # coffeelint: disable=max_line_length
-          insert = "console.log('#{selection.toUpperCase()}', #{selection})"
-          # coffeelint: enable=max_line_length
-          consoleLog.add devLayer, insertType
-          expect(editor.lineTextForScreenRow 0).toEqual varContainingIf
-          expect(editor.lineTextForScreenRow 1).toEqual "#{insert}"
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testConditionalWithSpaceAndParens
+            editor.setCursorScreenPosition [0,0]
+            editor.moveToEndOfWord()
+            editor.moveToEndOfWord()
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            insert = "console.log('#{selection.toUpperCase()}', #{selection})"
+            textInsert = "console.log('CONDITION PASSED')"
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 0).toEqual "#{insert}"
+            expect(editor.lineTextForScreenRow 2).toEqual "#{textInsert}"
+
+          it "should add insert inside chained conditional", ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testConditionalWithSpaceAndParens
+            editor.setCursorScreenPosition [2,0]
+            editor.moveToEndOfWord()
+            editor.moveToEndOfWord()
+            editor.moveToEndOfWord()
+            editor.moveToEndOfWord()
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            insert = "console.log('#{selection.toUpperCase()}', #{selection})"
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
+
+        describe "Without Spaces and With Parens :", ->
+          it """
+            should add insert above first conditional,
+            and 'CONDITION PASSED' insert below first conditional
+          """, ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testConditionalWithoutSpaceAndWithParens
+            editor.setCursorScreenPosition [0,3]
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            insert = "console.log('#{selection.toUpperCase()}', #{selection})"
+            textInsert = "console.log('CONDITION PASSED')"
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 0).toEqual "#{insert}"
+            expect(editor.lineTextForScreenRow 2).toEqual "#{textInsert}"
+
+          it "should add insert inside chained conditional", ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testConditionalWithoutSpaceAndWithParens
+            editor.setCursorScreenPosition [2,10]
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            insert = "console.log('#{selection.toUpperCase()}', #{selection})"
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
+
+        describe "For variables that contain if :", ->
+          it """
+            should NOT add conditionalinsert for variables that contain if
+            should insert regular console log expression instead
+            """, ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText varContainingIf
+            editor.setCursorScreenPosition [0,0]
+            editor.moveToEndOfWord()
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            # coffeelint: disable=max_line_length
+            insert = "console.log('#{selection.toUpperCase()}', #{selection})"
+            # coffeelint: enable=max_line_length
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 0).toEqual varContainingIf
+            expect(editor.lineTextForScreenRow 1).toEqual "#{insert}"
+
+        describe "Without Parens :", ->
+          it """
+            should add insert above first conditional,
+            and 'CONDITION PASSED' insert below first conditional
+          """, ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testConditionalWithoutParens
+            editor.setCursorScreenPosition [0,0]
+            editor.moveToEndOfWord()
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            insert = "console.log('#{selection.toUpperCase()}', #{selection})"
+            textInsert = "console.log('CONDITION PASSED')"
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 0).toEqual "#{insert}"
+            expect(editor.lineTextForScreenRow 2).toEqual "#{textInsert}"
+
+          it "should add insert inside chained conditional", ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testConditionalWithoutParens
+            editor.setCursorScreenPosition [2,0]
+            editor.moveToEndOfWord()
+            editor.moveToEndOfWord()
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            insert = "console.log('#{selection.toUpperCase()}', #{selection})"
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
 
       describe "Syntax and Styling :", ->
         it """
@@ -338,53 +408,110 @@ describe "Inserts with Identifier :", ->
             expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
 
       describe "Conditionals :", ->
-        it """
-          should add insert above first conditional,
-          and 'CONDITION PASSED' insert below first conditional
-        """, ->
-          editor = atom.workspace.getActiveTextEditor()
-          editor.insertText testConditional
-          editor.setCursorScreenPosition [0,0]
-          editor.moveToEndOfWord()
-          editor.moveToEndOfWord()
-          editor.selectToEndOfWord()
-          selection = editor.getSelectedText()
-          insert = "console.log('#{selection}', #{selection})"
-          textInsert = "console.log('CONDITION PASSED')"
-          consoleLog.add devLayer, insertType
-          expect(editor.lineTextForScreenRow 0).toEqual "#{insert}"
-          expect(editor.lineTextForScreenRow 2).toEqual "#{textInsert}"
-
-        it "should add insert inside chained conditional", ->
-          editor = atom.workspace.getActiveTextEditor()
-          editor.insertText testConditional
-          editor.setCursorScreenPosition [2,0]
-          editor.moveToEndOfWord()
-          editor.moveToEndOfWord()
-          editor.moveToEndOfWord()
-          editor.moveToEndOfWord()
-          editor.selectToEndOfWord()
-          selection = editor.getSelectedText()
-          insert = "console.log('#{selection}', #{selection})"
-          consoleLog.add devLayer, insertType
-          expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
-
-        it """
-          should NOT add conditionalinsert for variables that contain if
-          should insert regular console log expression instead
+        describe "With Spaces and Parens :", ->
+          it """
+            should add insert above first conditional,
+            and 'CONDITION PASSED' insert below first conditional
           """, ->
-          editor = atom.workspace.getActiveTextEditor()
-          editor.insertText varContainingIf
-          editor.setCursorScreenPosition [0,0]
-          editor.moveToEndOfWord()
-          editor.selectToEndOfWord()
-          selection = editor.getSelectedText()
-          # coffeelint: disable=max_line_length
-          insert = "console.log('#{selection}', #{selection})"
-          # coffeelint: enable=max_line_length
-          consoleLog.add devLayer, insertType
-          expect(editor.lineTextForScreenRow 0).toEqual varContainingIf
-          expect(editor.lineTextForScreenRow 1).toEqual "#{insert}"
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testConditionalWithSpaceAndParens
+            editor.setCursorScreenPosition [0,0]
+            editor.moveToEndOfWord()
+            editor.moveToEndOfWord()
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            insert = "console.log('#{selection}', #{selection})"
+            textInsert = "console.log('CONDITION PASSED')"
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 0).toEqual "#{insert}"
+            expect(editor.lineTextForScreenRow 2).toEqual "#{textInsert}"
+
+          it "should add insert inside chained conditional", ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testConditionalWithSpaceAndParens
+            editor.setCursorScreenPosition [2,0]
+            editor.moveToEndOfWord()
+            editor.moveToEndOfWord()
+            editor.moveToEndOfWord()
+            editor.moveToEndOfWord()
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            insert = "console.log('#{selection}', #{selection})"
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
+
+        describe "Without Spaces and With Parens :", ->
+          it """
+            should add insert above first conditional,
+            and 'CONDITION PASSED' insert below first conditional
+          """, ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testConditionalWithoutSpaceAndWithParens
+            editor.setCursorScreenPosition [0,3]
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            insert = "console.log('#{selection}', #{selection})"
+            textInsert = "console.log('CONDITION PASSED')"
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 0).toEqual "#{insert}"
+            expect(editor.lineTextForScreenRow 2).toEqual "#{textInsert}"
+
+          it "should add insert inside chained conditional", ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testConditionalWithoutSpaceAndWithParens
+            editor.setCursorScreenPosition [2,10]
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            insert = "console.log('#{selection}', #{selection})"
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
+
+        describe "For variables that contain if :", ->
+          it """
+            should NOT add conditionalinsert for variables that contain if
+            should insert regular console log expression instead
+            """, ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText varContainingIf
+            editor.setCursorScreenPosition [0,0]
+            editor.moveToEndOfWord()
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            # coffeelint: disable=max_line_length
+            insert = "console.log('#{selection}', #{selection})"
+            # coffeelint: enable=max_line_length
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 0).toEqual varContainingIf
+            expect(editor.lineTextForScreenRow 1).toEqual "#{insert}"
+
+        describe "Without Parens :", ->
+          it """
+            should add insert above first conditional,
+            and 'CONDITION PASSED' insert below first conditional
+          """, ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testConditionalWithoutParens
+            editor.setCursorScreenPosition [0,0]
+            editor.moveToEndOfWord()
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            insert = "console.log('#{selection}', #{selection})"
+            textInsert = "console.log('CONDITION PASSED')"
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 0).toEqual "#{insert}"
+            expect(editor.lineTextForScreenRow 2).toEqual "#{textInsert}"
+
+          it "should add insert inside chained conditional", ->
+            editor = atom.workspace.getActiveTextEditor()
+            editor.insertText testConditionalWithoutParens
+            editor.setCursorScreenPosition [2,0]
+            editor.moveToEndOfWord()
+            editor.moveToEndOfWord()
+            editor.selectToEndOfWord()
+            selection = editor.getSelectedText()
+            insert = "console.log('#{selection}', #{selection})"
+            consoleLog.add devLayer, insertType
+            expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
 
       describe "Syntax and Styling :", ->
         it """
