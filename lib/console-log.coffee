@@ -50,7 +50,7 @@ module.exports =
       if selectedText.length > 0
         checkedRows = 0
         conditionalCheckValues = ['if ', 'if (', 'if(' ]
-        chainedconditionalCheckValues = ['else if']
+        chainedconditionalCheckValue = 'else if'
         conditionalFlag = false
         editorLineCount = editor.getLastScreenRow()
         functionCheckValues = ['=>', 'function', '){', ') {']
@@ -80,15 +80,13 @@ module.exports =
         if '(' not in lineTextBeforeSelectedText
           objectFlag = true
 
-        for val in conditionalCheckValues
-          if functionCheckSelection.match(new RegExp('^if'))
-            objectFlag = false
-            conditionalFlag = true
+        if functionCheckSelection.match(new RegExp('^if[ (]'))
+          objectFlag = false
+          conditionalFlag = true
 
-        for val in chainedconditionalCheckValues
-          if functionCheckSelection.indexOf(val) > -1
-            objectFlag = false
-            conditionalFlag = false
+        if functionCheckSelection.indexOf(chainedconditionalCheckValue) > -1
+          objectFlag = false
+          conditionalFlag = false
 
         if objectFlag
           objectCount = objectCount + methods.objectCheck objectCheckSelection
