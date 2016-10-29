@@ -32,6 +32,8 @@ describe "JSON.stringify Inserts with Identifier :", ->
       return 'test4'
     }
   """
+  varContainingIf = "const sif = noiShared.get('sif');"
+
   beforeEach ->
     waitsForPromise ->
       atom.workspace.open "test.js"
@@ -206,6 +208,23 @@ describe "JSON.stringify Inserts with Identifier :", ->
           consoleLog.add devLayer, insertType
           expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
 
+        it """
+          should NOT add conditionalinsert for variables that contain if
+          should insert regular console log expression instead
+          """, ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText varContainingIf
+          editor.setCursorScreenPosition [0,0]
+          editor.moveToEndOfWord()
+          editor.selectToEndOfWord()
+          selection = editor.getSelectedText()
+          # coffeelint: disable=max_line_length
+          insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
+          # coffeelint: enable=max_line_length
+          consoleLog.add devLayer, insertType
+          expect(editor.lineTextForScreenRow 0).toEqual varContainingIf
+          expect(editor.lineTextForScreenRow 1).toEqual "#{insert}"
+
       describe "Syntax and Styling", ->
         it """
           should have a semi colon at end of insert
@@ -377,6 +396,23 @@ describe "JSON.stringify Inserts with Identifier :", ->
           # coffeelint: enable=max_line_length
           consoleLog.add devLayer, insertType
           expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
+
+        it """
+          should NOT add conditionalinsert for variables that contain if
+          should insert regular console log expression instead
+          """, ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText varContainingIf
+          editor.setCursorScreenPosition [0,0]
+          editor.moveToEndOfWord()
+          editor.selectToEndOfWord()
+          selection = editor.getSelectedText()
+          # coffeelint: disable=max_line_length
+          insert = "console.log('#{selection}', JSON.stringify(#{selection}))"
+          # coffeelint: enable=max_line_length
+          consoleLog.add devLayer, insertType
+          expect(editor.lineTextForScreenRow 0).toEqual varContainingIf
+          expect(editor.lineTextForScreenRow 1).toEqual "#{insert}"
 
       describe "Syntax and Styling :", ->
         it """

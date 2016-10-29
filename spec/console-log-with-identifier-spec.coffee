@@ -36,6 +36,7 @@ describe "Inserts with Identifier :", ->
       return 'test4'
     }
   """
+  varContainingIf = "const sif = noiShared.get('sif');"
 
   describe "Back End Inserts :", ->
     devLayer = "backEnd"
@@ -184,6 +185,23 @@ describe "Inserts with Identifier :", ->
           insert = "console.log('#{selection.toUpperCase()}', #{selection})"
           consoleLog.add devLayer, insertType
           expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
+
+        it """
+          should NOT add conditionalinsert for variables that contain if
+          should insert regular console log expression instead
+          """, ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText varContainingIf
+          editor.setCursorScreenPosition [0,0]
+          editor.moveToEndOfWord()
+          editor.selectToEndOfWord()
+          selection = editor.getSelectedText()
+          # coffeelint: disable=max_line_length
+          insert = "console.log('#{selection.toUpperCase()}', #{selection})"
+          # coffeelint: enable=max_line_length
+          consoleLog.add devLayer, insertType
+          expect(editor.lineTextForScreenRow 0).toEqual varContainingIf
+          expect(editor.lineTextForScreenRow 1).toEqual "#{insert}"
 
       describe "Syntax and Styling :", ->
         it """
@@ -350,6 +368,23 @@ describe "Inserts with Identifier :", ->
           insert = "console.log('#{selection}', #{selection})"
           consoleLog.add devLayer, insertType
           expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
+
+        it """
+          should NOT add conditionalinsert for variables that contain if
+          should insert regular console log expression instead
+          """, ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText varContainingIf
+          editor.setCursorScreenPosition [0,0]
+          editor.moveToEndOfWord()
+          editor.selectToEndOfWord()
+          selection = editor.getSelectedText()
+          # coffeelint: disable=max_line_length
+          insert = "console.log('#{selection}', #{selection})"
+          # coffeelint: enable=max_line_length
+          consoleLog.add devLayer, insertType
+          expect(editor.lineTextForScreenRow 0).toEqual varContainingIf
+          expect(editor.lineTextForScreenRow 1).toEqual "#{insert}"
 
       describe "Syntax and Styling :", ->
         it """

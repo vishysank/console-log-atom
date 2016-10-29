@@ -81,7 +81,7 @@ module.exports =
           objectFlag = true
 
         for val in conditionalCheckValues
-          if functionCheckSelection.indexOf(val) > -1
+          if functionCheckSelection.match(new RegExp('^if'))
             objectFlag = false
             conditionalFlag = true
 
