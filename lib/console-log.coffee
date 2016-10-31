@@ -48,6 +48,9 @@ module.exports =
         cursorOffset++
 
       if selectedText.length > 0
+        if selectedText[selectedText.length - 1] == ';'
+          selectedText = selectedText.slice(0, -1)
+
         checkedRows = 0
         conditionalCheckValues = ['if ', 'if (', 'if(' ]
         chainedconditionalCheckValue = 'else if'

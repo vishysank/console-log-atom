@@ -51,6 +51,7 @@ describe "Inserts with Identifier :", ->
         return 'test4'
   """
   varContainingIf = "const sif = noiShared.get('sif');"
+  testLogWithSemiColon = "method(param1, param2);"
 
   describe "Back End Inserts :", ->
     devLayer = "backEnd"
@@ -273,6 +274,17 @@ describe "Inserts with Identifier :", ->
             insert = "console.log('#{selection.toUpperCase()}', #{selection})"
             consoleLog.add devLayer, insertType
             expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
+
+      describe "Including semicolon in console.log", ->
+        it "should remove semicolon in idenifier and insert", ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText testLogWithSemiColon
+          editor.setCursorScreenPosition [0,0]
+          editor.selectToEndOfLine()
+          selection = editor.getSelectedText().slice(0, -1)
+          insert = "console.log('#{selection.toUpperCase()}', #{selection})"
+          consoleLog.add devLayer, insertType
+          expect(editor.lineTextForScreenRow 1).toEqual "#{insert}"
 
       describe "Syntax and Styling :", ->
         it """
@@ -513,6 +525,17 @@ describe "Inserts with Identifier :", ->
             insert = "console.log('#{selection}', #{selection})"
             consoleLog.add devLayer, insertType
             expect(editor.lineTextForScreenRow 3).toEqual "#{insert}"
+
+      describe "Including semicolon in console.log", ->
+        it "should remove semicolon in idenifier and insert", ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText testLogWithSemiColon
+          editor.setCursorScreenPosition [0,0]
+          editor.selectToEndOfLine()
+          selection = editor.getSelectedText().slice(0, -1)
+          insert = "console.log('#{selection}', #{selection})"
+          consoleLog.add devLayer, insertType
+          expect(editor.lineTextForScreenRow 1).toEqual "#{insert}"
 
       describe "Syntax and Styling :", ->
         it """
