@@ -2,6 +2,7 @@
 settings = require './config'
 methods = require './methods'
 insertProps = require './insertProps'
+contextMenu = require './contextMenu'
 
 module.exports =
   config: settings.config
@@ -23,9 +24,15 @@ module.exports =
         @add 'frontEnd', 'stringify'
     @subscriptions.add atom.commands.add 'atom-workspace',
       'console-log:deconsoler': => @deconsole()
+    @subscriptions.add atom.config.observe 'console-log.contextMenu', (showContextMenu) =>
+      if showContextMenu
+        @contextMenu = atom.contextMenu.add contextMenu
+      else
+        @contextMenu?.dispose()
 
   deactivate: ->
     @subscriptions.dispose()
+    @contextMenu?.dispose()
 
   add: (devLayer, insertType) ->
     if editor = atom.workspace.getActiveTextEditor()
