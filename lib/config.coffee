@@ -54,3 +54,7 @@ module.exports =
         'purple',
         'white'
       ]
+    contextMenu:
+      type: 'boolean'
+      title: 'Context menu'
+      default: true
