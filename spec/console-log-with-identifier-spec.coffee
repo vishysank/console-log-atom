@@ -7,6 +7,9 @@ describe "Inserts with Identifier :", ->
       atom.workspace.open "test.js"
 
   testString = "test case"
+  testStringWithSingleQuotes = "function('param1', 'param2')"
+  testStringWithSingleQuotesIdentifier = "function(\\'param1\\', \\'param2\\')"
+
   testObject = """
     object = {
       object2: {
@@ -65,6 +68,16 @@ describe "Inserts with Identifier :", ->
           editor.selectToEndOfWord()
           selection = editor.getSelectedText()
           insert = "console.log('#{selection.toUpperCase()}', #{selection})"
+          consoleLog.add devLayer, insertType
+          expect(editor.getText()).toContain "#{insert}"
+
+        it "should escape single quotes from selected text", ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText testStringWithSingleQuotes
+          editor.moveToBeginningOfLine()
+          editor.selectToEndOfLine()
+          selection = editor.getSelectedText()
+          insert = "console.log('#{testStringWithSingleQuotesIdentifier.toUpperCase()}', #{selection})"
           consoleLog.add devLayer, insertType
           expect(editor.getText()).toContain "#{insert}"
 
@@ -316,6 +329,16 @@ describe "Inserts with Identifier :", ->
           editor.selectToEndOfWord()
           selection = editor.getSelectedText()
           insert = "console.log('#{selection}', #{selection})"
+          consoleLog.add devLayer, insertType
+          expect(editor.getText()).toContain "#{insert}"
+
+        it "should escape single quotes from selected text", ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText testStringWithSingleQuotes
+          editor.moveToBeginningOfLine()
+          editor.selectToEndOfLine()
+          selection = editor.getSelectedText()
+          insert = "console.log('#{testStringWithSingleQuotesIdentifier}', #{selection})"
           consoleLog.add devLayer, insertType
           expect(editor.getText()).toContain "#{insert}"
 

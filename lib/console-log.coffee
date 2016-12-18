@@ -68,7 +68,7 @@ module.exports =
         identifier = (
           if identifierCaseConfig
           then selectedText else selectedText.toUpperCase()
-        ).replace /('|"|\\)/g, '\\$1'
+        ).replace /('|\\)/g, '\\$1'
 
         objectFlag = true
         objectCount = 0
