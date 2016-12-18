@@ -3,6 +3,8 @@ consoleLog = require "../lib/console-log.coffee"
 describe "JSON.stringify Inserts with Identifier :", ->
   insertType = 'stringify'
   testString = "test case"
+  testStringWithSingleQuotes = "function('param1', 'param2')"
+  testStringWithSingleQuotesIdentifier = "function(\\'param1\\', \\'param2\\')"
   testObject = """
     object = {
       object2: {
@@ -66,6 +68,18 @@ describe "JSON.stringify Inserts with Identifier :", ->
           selection = editor.getSelectedText()
           # coffeelint: disable=max_line_length
           insert = "console.log('#{selection.toUpperCase()}', JSON.stringify(#{selection}))"
+          # coffeelint: enable=max_line_length
+          consoleLog.add devLayer, insertType
+          expect(editor.getText()).toContain "#{insert}"
+
+        it "should escape single quotes from selected text", ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText testStringWithSingleQuotes
+          editor.moveToBeginningOfLine()
+          editor.selectToEndOfLine()
+          selection = editor.getSelectedText()
+          # coffeelint: disable=max_line_length
+          insert = "console.log('#{testStringWithSingleQuotesIdentifier.toUpperCase()}', JSON.stringify(#{selection}))"
           # coffeelint: enable=max_line_length
           consoleLog.add devLayer, insertType
           expect(editor.getText()).toContain "#{insert}"
@@ -348,6 +362,18 @@ describe "JSON.stringify Inserts with Identifier :", ->
           editor.selectToEndOfWord()
           selection = editor.getSelectedText()
           insert = "console.log('#{selection}', JSON.stringify(#{selection}))"
+          consoleLog.add devLayer, insertType
+          expect(editor.getText()).toContain "#{insert}"
+
+        it "should escape single quotes from selected text", ->
+          editor = atom.workspace.getActiveTextEditor()
+          editor.insertText testStringWithSingleQuotes
+          editor.moveToBeginningOfLine()
+          editor.selectToEndOfLine()
+          selection = editor.getSelectedText()
+          # coffeelint: disable=max_line_length
+          insert = "console.log('#{testStringWithSingleQuotesIdentifier}', JSON.stringify(#{selection}))"
+          # coffeelint: enable=max_line_length
           consoleLog.add devLayer, insertType
           expect(editor.getText()).toContain "#{insert}"
 
