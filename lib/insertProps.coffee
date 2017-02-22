@@ -17,4 +17,4 @@ module.exports =
       then "console.log(JSON.stringify('TEST'))"
       else 'console.log(JSON.stringify())'
     selectedTextInsert: (text) ->
-      "JSON.stringify(#{text})"
+      "JSON.stringify(#{text}, null, 2)"
