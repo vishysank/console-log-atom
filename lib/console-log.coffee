@@ -84,12 +84,12 @@ module.exports =
         functionCheckSelection = editor.getSelectedText()
         objectCheckSelection = functionCheckSelection.split ''
 
+        if '(' not in lineTextBeforeSelectedText
+          objectFlag = true
+
         for val in functionCheckValues
           if functionCheckSelection.indexOf(val) > -1
             objectFlag = false
-
-        if '(' not in lineTextBeforeSelectedText
-          objectFlag = true
 
         if functionCheckSelection.match(new RegExp('^if[ (]'))
           objectFlag = false
