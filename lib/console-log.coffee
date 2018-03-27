@@ -65,7 +65,9 @@ module.exports =
         editorLineCount = editor.getLastScreenRow()
         functionCheckValues = ['=>', 'function', '){', ') {']
         identifierCaseConfig = configProp 'console-log.identifierCase'
-        identifier = (
+        identifierPrefixConfig = configProp 'console-log.identifierPrefix'
+        identifierPrefix = if identifierPrefixConfig then identifierPrefixConfig + ' ' else ''
+        identifier = identifierPrefix + (
           if identifierCaseConfig
           then selectedText else selectedText.toUpperCase()
         ).replace /('|\\)/g, '\\$1'
