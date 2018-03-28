@@ -58,7 +58,7 @@ module.exports =
       type: 'string'
       title: 'Identifier prefix'
       description: """
-        Should be easy to spot. Usefull when searching big logs. Example: '<<<--->>>'
+        Should be easy to spot. Useful when searching big logs. Example: '<<<--->>>'
       """
       default: ''
     contextMenu:
