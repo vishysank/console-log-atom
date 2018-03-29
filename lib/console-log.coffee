@@ -65,10 +65,12 @@ module.exports =
         editorLineCount = editor.getLastScreenRow()
         functionCheckValues = ['=>', 'function', '){', ') {']
         identifierCaseConfig = configProp 'console-log.identifierCase'
-        identifier = (
-          if identifierCaseConfig
-          then selectedText else selectedText.toUpperCase()
-        ).replace /('|\\)/g, '\\$1'
+        identifierPrefixConfig = configProp 'console-log.identifierPrefix'
+
+        identifierPrefix = identifierPrefixConfig || ''
+        casedSelectedText = if identifierCaseConfig then selectedText else selectedText.toUpperCase()
+
+        identifier = (identifierPrefix + casedSelectedText).replace /('|\\)/g, '\\$1'
 
         objectFlag = true
         objectCount = 0

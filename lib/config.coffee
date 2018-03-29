@@ -54,6 +54,13 @@ module.exports =
         'purple',
         'white'
       ]
+    identifierPrefix:
+      type: 'string'
+      title: 'Identifier prefix'
+      description: """
+        Should be easy to spot. Useful when searching big logs. Example: '<<<--->>>'
+      """
+      default: ''
     contextMenu:
       type: 'boolean'
       title: 'Context menu'
