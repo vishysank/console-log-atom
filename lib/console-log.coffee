@@ -66,11 +66,11 @@ module.exports =
         functionCheckValues = ['=>', 'function', '){', ') {']
         identifierCaseConfig = configProp 'console-log.identifierCase'
         identifierPrefixConfig = configProp 'console-log.identifierPrefix'
-        identifierPrefix = (identifierPrefixConfig || '').replace /('|\\)/g, '\\$1'
-        identifier = identifierPrefix + (
-          if identifierCaseConfig
-          then selectedText else selectedText.toUpperCase()
-        ).replace /('|\\)/g, '\\$1'
+
+        identifierPrefix = identifierPrefixConfig || ''
+        casedSelectedText = if identifierCaseConfig then selectedText else selectedText.toUpperCase()
+
+        identifier = (identifierPrefix + casedSelectedText).replace /('|\\)/g, '\\$1'
 
         objectFlag = true
         objectCount = 0
